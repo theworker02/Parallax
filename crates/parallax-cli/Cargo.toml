@@ -3,6 +3,7 @@ name = "parallax-cli"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Parallax CLI — universal polyglot execution runtime"
 rust-version.workspace = true
 

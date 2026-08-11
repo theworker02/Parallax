@@ -3,6 +3,7 @@ name = "parallax-ues"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Universal Execution State (UES) — suspended computation for Continuum"
 rust-version.workspace = true
 

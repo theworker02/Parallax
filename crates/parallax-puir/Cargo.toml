@@ -3,6 +3,7 @@ name = "parallax-puir"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Parallax Universal Intermediate Representation (PUIR) — language-neutral program semantics"
 rust-version.workspace = true
 

@@ -3,6 +3,7 @@ name = "parallax-project"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Language-neutral project semantic graph for Parallax Transmute"
 rust-version.workspace = true
 

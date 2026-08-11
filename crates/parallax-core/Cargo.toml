@@ -3,6 +3,7 @@ name = "parallax-core"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Core types, errors, capabilities, and execution model for Parallax"
 rust-version.workspace = true
 

@@ -3,6 +3,7 @@ name = "parallax-adapter-wasm"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "WebAssembly runtime adapter for Parallax (wasmtime)"
 rust-version.workspace = true
 

@@ -3,6 +3,7 @@ name = "parallax-protocol"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Versioned worker protocol for Parallax runtime adapters"
 rust-version.workspace = true
 

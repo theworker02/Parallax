@@ -3,6 +3,7 @@ name = "parallax-mirror"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Parallax Mirror — linked projects, semantic sync, differential verification"
 rust-version.workspace = true
 

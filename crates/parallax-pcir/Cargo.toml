@@ -3,6 +3,7 @@ name = "parallax-pcir"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Parallax Continuation IR (PCIR) — portable control-flow subset"
 rust-version.workspace = true
 

@@ -3,6 +3,7 @@ name = "parallax-horizon"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Event Horizon — semantic reconstruction for impossible migrations"
 rust-version.workspace = true
 

@@ -3,6 +3,7 @@ name = "parallax-snapshot"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Deterministic .plx snapshot format for Parallax"
 rust-version.workspace = true
 

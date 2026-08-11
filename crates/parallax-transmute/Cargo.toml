@@ -3,6 +3,7 @@ name = "parallax-transmute"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Parallax Transmute — semantic project migration engine"
 rust-version.workspace = true
 

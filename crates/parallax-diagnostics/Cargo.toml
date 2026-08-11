@@ -3,6 +3,7 @@ name = "parallax-diagnostics"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Structured tracing and diagnostics for Parallax"
 rust-version.workspace = true
 

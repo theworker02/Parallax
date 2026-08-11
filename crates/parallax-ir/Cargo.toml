@@ -3,6 +3,7 @@ name = "parallax-ir"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Parallax Intermediate Representation (PIR)"
 rust-version.workspace = true
 

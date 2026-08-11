@@ -3,6 +3,7 @@ name = "parallax-adapter-sdk"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Parallax Adapter SDK — formal contracts for language, framework, and ecosystem adapters"
 rust-version.workspace = true
 

@@ -10,12 +10,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/parallax-runtime/parallax/actions/workflows/ci.yml"><img src="https://github.com/parallax-runtime/parallax/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/theworker02/Parallax/actions/workflows/ci.yml"><img src="https://github.com/theworker02/Parallax/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
   <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg?logo=rust" alt="Rust"></a>
   <a href="Cargo.toml"><img src="https://img.shields.io/badge/version-0.1.0-informational" alt="Version"></a>
   <a href="https://parallax-runtime.github.io/parallax/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-0B5FFF?logo=gitbook&logoColor=white" alt="Docs"></a>
-  <a href="https://github.com/parallax-runtime/parallax/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-informational" alt="Platform"></a>
+  <a href="https://github.com/theworker02/Parallax/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-informational" alt="Platform"></a>
 </p>
 
 ---
@@ -48,7 +48,7 @@ Parallax is a Rust workspace for **honest polyglot tooling**: process-isolated P
 ### Build
 
 ```bash
-git clone https://github.com/parallax-runtime/parallax.git
+git clone https://github.com/theworker02/Parallax.git
 cd parallax
 cargo build -p parallax-cli --release
 export PATH="$PWD/target/release:$PATH"   # optional

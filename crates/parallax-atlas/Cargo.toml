@@ -3,6 +3,7 @@ name = "parallax-atlas"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "Parallax Atlas — adapter registry, stack detection, migration planning orchestration"
 rust-version.workspace = true
 
