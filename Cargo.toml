@@ -35,27 +35,27 @@ authors = ["Parallax Contributors"]
 rust-version = "1.75"
 
 [workspace.dependencies]
-parallax-core = { path = "crates/parallax-core" }
-parallax-ir = { path = "crates/parallax-ir" }
-parallax-pcir = { path = "crates/parallax-pcir" }
-parallax-ues = { path = "crates/parallax-ues" }
-parallax-puir = { path = "crates/parallax-puir" }
-parallax-project = { path = "crates/parallax-project" }
-parallax-protocol = { path = "crates/parallax-protocol" }
-parallax-transmute = { path = "crates/parallax-transmute" }
-parallax-mirror = { path = "crates/parallax-mirror" }
-parallax-security = { path = "crates/parallax-security" }
-parallax-diagnostics = { path = "crates/parallax-diagnostics" }
-parallax-snapshot = { path = "crates/parallax-snapshot" }
-parallax-migrate = { path = "crates/parallax-migrate" }
-parallax-runtime = { path = "crates/parallax-runtime" }
-parallax-adapter-python = { path = "crates/parallax-adapter-python" }
-parallax-adapter-js = { path = "crates/parallax-adapter-js" }
-parallax-adapter-wasm = { path = "crates/parallax-adapter-wasm" }
-parallax-connectors = { path = "crates/parallax-connectors" }
-parallax-adapter-sdk = { path = "crates/parallax-adapter-sdk" }
-parallax-atlas = { path = "crates/parallax-atlas" }
-parallax-horizon = { path = "crates/parallax-horizon" }
+parallax-core = { version = "0.1.0", path = "crates/parallax-core" }
+parallax-ir = { version = "0.1.0", path = "crates/parallax-ir" }
+parallax-pcir = { version = "0.1.0", path = "crates/parallax-pcir" }
+parallax-ues = { version = "0.1.0", path = "crates/parallax-ues" }
+parallax-puir = { version = "0.1.0", path = "crates/parallax-puir" }
+parallax-project = { version = "0.1.0", path = "crates/parallax-project" }
+parallax-protocol = { version = "0.1.0", path = "crates/parallax-protocol" }
+parallax-transmute = { version = "0.1.0", path = "crates/parallax-transmute" }
+parallax-mirror = { version = "0.1.0", path = "crates/parallax-mirror" }
+parallax-security = { version = "0.1.0", path = "crates/parallax-security" }
+parallax-diagnostics = { version = "0.1.0", path = "crates/parallax-diagnostics" }
+parallax-snapshot = { version = "0.1.0", path = "crates/parallax-snapshot" }
+parallax-migrate = { version = "0.1.0", path = "crates/parallax-migrate" }
+parallax-runtime = { version = "0.1.0", path = "crates/parallax-runtime" }
+parallax-adapter-python = { version = "0.1.0", path = "crates/parallax-adapter-python" }
+parallax-adapter-js = { version = "0.1.0", path = "crates/parallax-adapter-js" }
+parallax-adapter-wasm = { version = "0.1.0", path = "crates/parallax-adapter-wasm" }
+parallax-connectors = { version = "0.1.0", path = "crates/parallax-connectors" }
+parallax-adapter-sdk = { version = "0.1.0", path = "crates/parallax-adapter-sdk" }
+parallax-atlas = { version = "0.1.0", path = "crates/parallax-atlas" }
+parallax-horizon = { version = "0.1.0", path = "crates/parallax-horizon" }
 
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
