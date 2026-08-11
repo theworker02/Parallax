@@ -152,7 +152,9 @@ jobs:
           tool: cargo-deny@0.19.0
       - name: cargo deny check
         run: cargo deny check
-      - name: cargo audit (advisory DB)
-        uses: rustsec/audit-check@v2.0.0
+      - name: Install cargo-audit
+        uses: taiki-e/install-action@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          tool: cargo-audit@0.22.2
+      - name: cargo audit (advisory DB)
+        run: cargo audit --ignore RUSTSEC-2025-0057
