@@ -1,0 +1,26 @@
+[package]
+name = "parallax-adapter-python"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Python runtime adapter for Parallax"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+parallax-ir = { workspace = true }
+parallax-protocol = { workspace = true }
+parallax-runtime = { workspace = true }
+parallax-security = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+uuid = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+async-trait = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["test-util"] }

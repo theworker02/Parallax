@@ -1,0 +1,28 @@
+[package]
+name = "parallax-adapter-wasm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "WebAssembly runtime adapter for Parallax (wasmtime)"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+parallax-ir = { workspace = true }
+parallax-runtime = { workspace = true }
+parallax-security = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+uuid = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+wasmtime = { workspace = true }
+async-trait = { workspace = true }
+indexmap = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["test-util"] }
+wat = "1"

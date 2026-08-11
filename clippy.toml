@@ -1,0 +1,5 @@
+# Workspace Clippy configuration
+msrv = "1.75"
+
+# ParallaxError carries structured remediations/context; keep it unboxed for ergonomics.
+large-error-threshold = 256

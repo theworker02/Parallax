@@ -1,0 +1,20 @@
+[package]
+name = "parallax-connectors"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Parallax language connector catalog — runtime adapters and transmute language matrix"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+parallax-ir = { workspace = true }
+parallax-protocol = { workspace = true }
+parallax-runtime = { workspace = true }
+parallax-security = { workspace = true }
+parallax-project = { workspace = true }
+async-trait = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+parking_lot = { workspace = true }

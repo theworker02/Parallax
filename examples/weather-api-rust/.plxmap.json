@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "generated_file": "src/types.rs",
+      "generated_line": 5,
+      "generated_column": 1,
+      "original_file": "src/types.ts",
+      "original_line": 2,
+      "original_column": 1,
+      "semantic_node": "Type Weather"
+    },
+    {
+      "generated_file": "src/types.rs",
+      "generated_line": 13,
+      "generated_column": 1,
+      "original_file": "src/types.ts",
+      "original_line": 9,
+      "original_column": 1,
+      "semantic_node": "Type Forecast"
+    },
+    {
+      "generated_file": "src/service.rs",
+      "generated_line": 8,
+      "generated_column": 1,
+      "original_file": "src/service.ts",
+      "original_line": 3,
+      "original_column": 7,
+      "semantic_node": "Const catalog CITIES"
+    },
+    {
+      "generated_file": "src/service.rs",
+      "generated_line": 20,
+      "generated_column": 1,
+      "original_file": "src/service.ts",
+      "original_line": 10,
+      "original_column": 1,
+      "semantic_node": "Function getWeather"
+    },
+    {
+      "generated_file": "src/service.rs",
+      "generated_line": 20,
+      "generated_column": 1,
+      "original_file": "src/service.ts",
+      "original_line": 20,
+      "original_column": 1,
+      "semantic_node": "Function getForecast"
+    },
+    {
+      "generated_file": "src/service.rs",
+      "generated_line": 20,
+      "generated_column": 1,
+      "original_file": "src/service.ts",
+      "original_line": 39,
+      "original_column": 1,
+      "semantic_node": "Function celsiusToFahrenheit"
+    }
+  ]
+}

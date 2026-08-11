@@ -1,0 +1,10 @@
+[package]
+name = "parallax-example-acme-adapter"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Example third-party-style Parallax framework adapter"
+
+[dependencies]
+parallax-adapter-sdk = { path = "../../crates/parallax-adapter-sdk" }
+serde = { version = "1", features = ["derive"] }

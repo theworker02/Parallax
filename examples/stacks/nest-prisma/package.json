@@ -1,0 +1,23 @@
+{
+  "name": "nest-prisma-demo",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "start": "nest start",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "@prisma/client": "^5.0.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.0.0",
+    "prisma": "^5.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "prettier": "^3.0.0",
+    "eslint": "^8.0.0"
+  }
+}

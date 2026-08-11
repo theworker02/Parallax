@@ -1,0 +1,21 @@
+[package]
+name = "parallax-ir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Parallax Intermediate Representation (PIR)"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+bytes = { workspace = true }
+indexmap = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
+tempfile = { workspace = true }

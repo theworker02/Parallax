@@ -1,0 +1,29 @@
+[package]
+name = "parallax-runtime"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Runtime manager, worker orchestration, and adapter trait"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+parallax-ir = { workspace = true }
+parallax-protocol = { workspace = true }
+parallax-security = { workspace = true }
+parallax-diagnostics = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+tracing = { workspace = true }
+parking_lot = { workspace = true }
+bytes = { workspace = true }
+async-trait = { workspace = true }
+indexmap = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["test-util"] }

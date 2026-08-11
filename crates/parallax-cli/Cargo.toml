@@ -1,0 +1,58 @@
+[package]
+name = "parallax-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Parallax CLI — universal polyglot execution runtime"
+rust-version.workspace = true
+
+[lib]
+name = "parallax_cli"
+path = "src/lib.rs"
+
+[[bin]]
+name = "parallax"
+path = "src/main.rs"
+
+[[bin]]
+name = "plx"
+path = "src/bin/plx.rs"
+
+[dependencies]
+parallax-core = { workspace = true }
+parallax-ir = { workspace = true }
+parallax-pcir = { workspace = true }
+parallax-ues = { workspace = true }
+parallax-protocol = { workspace = true }
+parallax-security = { workspace = true }
+parallax-diagnostics = { workspace = true }
+parallax-snapshot = { workspace = true }
+parallax-migrate = { workspace = true }
+parallax-transmute = { workspace = true }
+parallax-mirror = { workspace = true }
+parallax-project = { workspace = true }
+parallax-puir = { workspace = true }
+parallax-runtime = { workspace = true }
+parallax-adapter-python = { workspace = true }
+parallax-adapter-js = { workspace = true }
+parallax-adapter-wasm = { workspace = true }
+parallax-connectors = { workspace = true }
+parallax-atlas = { workspace = true }
+parallax-adapter-sdk = { workspace = true }
+parallax-horizon = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+clap = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+anyhow = { workspace = true }
+hex = { workspace = true }
+tracing-subscriber = { workspace = true }
+tempfile = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+assert_cmd = "2"
+predicates = "3"

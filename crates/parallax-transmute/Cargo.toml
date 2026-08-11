@@ -1,0 +1,28 @@
+[package]
+name = "parallax-transmute"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Parallax Transmute — semantic project migration engine"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+parallax-puir = { workspace = true }
+parallax-project = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+indexmap = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true }
+walkdir = "2"
+regex = "1"
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["test-util"] }

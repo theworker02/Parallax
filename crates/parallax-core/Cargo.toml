@@ -1,0 +1,18 @@
+[package]
+name = "parallax-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Core types, errors, capabilities, and execution model for Parallax"
+rust-version.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+indexmap = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

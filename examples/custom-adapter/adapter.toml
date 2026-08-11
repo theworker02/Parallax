@@ -1,0 +1,6 @@
+id = "example.acme.router"
+name = "Acme Router Framework Adapter"
+version = "0.1.0"
+adapter_type = "framework"
+languages = ["typescript"]
+maturity = "experimental"

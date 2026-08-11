@@ -1,0 +1,22 @@
+[package]
+name = "parallax-migrate"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Cross-runtime migration engine and semantic-loss analysis"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+parallax-ir = { workspace = true }
+parallax-ues = { workspace = true }
+parallax-snapshot = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+indexmap = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

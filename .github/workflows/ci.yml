@@ -1,0 +1,155 @@
+name: ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-Dwarnings"
+
+jobs:
+  fmt:
+    name: fmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - run: cargo fmt --all -- --check
+
+  clippy:
+    name: clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --workspace --all-targets -- -D warnings
+
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: cargo build --workspace
+      - name: Test
+        run: cargo test --workspace
+      - name: Doctor
+        run: cargo run -q -p parallax-cli --bin plx -- doctor
+      - name: Migrate demo (Unix)
+        if: runner.os != 'Windows'
+        run: cargo run -q -p parallax-cli --bin plx -- migrate examples/demo.py --to javascript -o /tmp/demo.migrated.js
+      - name: Migrate demo (Windows)
+        if: runner.os == 'Windows'
+        run: cargo run -q -p parallax-cli --bin plx -- migrate examples/demo.py --to javascript -o $env:TEMP/demo.migrated.js
+      - name: Reverse migrate (JS → Python)
+        shell: bash
+        run: cargo run -q -p parallax-cli --bin plx -- migrate examples/demo.js --to python -o "${RUNNER_TEMP}/demo.migrated.py"
+      - name: Analyze stack fixtures
+        run: |
+          cargo run -q -p parallax-cli --bin plx -- analyze examples/stacks/nest-prisma --to rust
+          cargo run -q -p parallax-cli --bin plx -- analyze examples/stacks/fastapi-sqlalchemy --to rust
+          cargo run -q -p parallax-cli --bin plx -- analyze examples/weather-api --to rust
+
+  mirror:
+    name: mirror (weather-api)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build CLI
+        run: cargo build -p parallax-cli --bin plx
+      - name: Ensure target exists (migrate if needed)
+        run: |
+          if [ ! -f examples/weather-api-rust/Cargo.toml ]; then
+            cargo run -q -p parallax-cli --bin plx -- migrate examples/weather-api --to rust -o examples/weather-api-rust --require-build --require-tests
+          fi
+      - name: Link + CI gate
+        run: |
+          rm -rf examples/weather-api-rust/.parallax-link
+          cargo run -q -p parallax-cli --bin plx -- link examples/weather-api examples/weather-api-rust
+          cargo run -q -p parallax-cli --bin plx -- sync --check examples/weather-api-rust
+          cargo run -q -p parallax-cli --bin plx -- ci examples/weather-api-rust
+          cargo run -q -p parallax-cli --bin plx -- status --json examples/weather-api-rust
+
+  connectors:
+    name: connectors (catalog + experimental workers)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+      - name: Build CLI
+        run: cargo build -p parallax-cli --bin plx
+      - name: Catalog
+        run: |
+          cargo test -p parallax-connectors
+          cargo run -q -p parallax-cli --bin plx -- connectors --json > /tmp/connectors.json
+          cargo run -q -p parallax-cli --bin plx -- connectors --maturity experimental
+      - name: Experimental workers
+        run: |
+          cargo run -q -p parallax-cli --bin plx -- run examples/demo.go --runtime go
+          cargo run -q -p parallax-cli --bin plx -- run examples/demo.rb --runtime ruby --capture state
+          cargo run -q -p parallax-cli --bin plx -- run examples/demo.php --runtime php --capture state
+
+  docs:
+    name: docs (mdbook)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install mdBook
+        uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: "0.4.40"
+      - name: Build book
+        working-directory: docs
+        run: mdbook build
+
+  audit:
+    name: security audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Install cargo-deny
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-deny@0.16.3
+      - name: cargo deny check
+        run: cargo deny check
+      - name: cargo audit (advisory DB)
+        uses: rustsec/audit-check@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

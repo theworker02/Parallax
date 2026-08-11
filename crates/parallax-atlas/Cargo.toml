@@ -1,0 +1,21 @@
+[package]
+name = "parallax-atlas"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Parallax Atlas — adapter registry, stack detection, migration planning orchestration"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+parallax-adapter-sdk = { workspace = true }
+parallax-connectors = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+indexmap = { workspace = true }
+chrono = { workspace = true }
+walkdir = "2"
+tracing = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }

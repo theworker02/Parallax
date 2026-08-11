@@ -1,0 +1,17 @@
+[package]
+name = "parallax-puir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Parallax Universal Intermediate Representation (PUIR) — language-neutral program semantics"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+indexmap = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

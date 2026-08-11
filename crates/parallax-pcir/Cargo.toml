@@ -1,0 +1,16 @@
+[package]
+name = "parallax-pcir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Parallax Continuation IR (PCIR) — portable control-flow subset"
+rust-version.workspace = true
+
+[dependencies]
+parallax-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+indexmap = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

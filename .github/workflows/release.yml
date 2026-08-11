@@ -1,0 +1,92 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to build (e.g. v0.1.0) — optional for manual runs"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-binaries:
+    name: binary (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            archive: tar.gz
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            archive: tar.gz
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            archive: tar.gz
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            archive: zip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Build release CLI
+        run: cargo build -p parallax-cli --release --target ${{ matrix.target }}
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          STAGE="parallax-${{ github.ref_name }}-${{ matrix.target }}"
+          mkdir -p "$STAGE"
+          cp "target/${{ matrix.target }}/release/plx" "$STAGE/"
+          cp "target/${{ matrix.target }}/release/parallax" "$STAGE/"
+          cp README.md LICENSE "$STAGE/"
+          tar -czf "${STAGE}.tar.gz" "$STAGE"
+          echo "ASSET=${STAGE}.tar.gz" >> "$GITHUB_ENV"
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $stage = "parallax-${{ github.ref_name }}-${{ matrix.target }}"
+          New-Item -ItemType Directory -Path $stage | Out-Null
+          Copy-Item "target/${{ matrix.target }}/release/plx.exe" $stage
+          Copy-Item "target/${{ matrix.target }}/release/parallax.exe" $stage
+          Copy-Item README.md, LICENSE $stage
+          Compress-Archive -Path $stage -DestinationPath "$stage.zip"
+          "ASSET=$stage.zip" | Out-File -FilePath $env:GITHUB_ENV -Append
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: plx-${{ matrix.target }}
+          path: |
+            parallax-*.tar.gz
+            parallax-*.zip
+
+  publish-release:
+    name: publish GitHub release
+    needs: build-binaries
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: dist/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

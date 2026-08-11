@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 48" role="img" aria-label="Parallax">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2A6F97"/>
+      <stop offset="100%" stop-color="#1B998B"/>
+    </linearGradient>
+  </defs>
+  <!-- abstract P / parallax planes -->
+  <path fill="url(#g)" d="M8 6h18l14 36H22L20 34H8V6zm10 10v10h6.5c4 0 6.5-2 6.5-5s-2.5-5-6.5-5H18z"/>
+  <path fill="#2A6F97" opacity="0.55" d="M44 10h16v4H44zM48 18h20v4H48zM52 26h14v4H52z"/>
+  <text x="78" y="34" font-family="Segoe UI, system-ui, sans-serif" font-size="28" font-weight="600" fill="#0D1B2A">Parallax</text>
+</svg>

@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "created_at": "2026-08-11T14:48:12.251677600Z",
+  "source_root": "\\\\?\\C:\\Users\\matth\\OneDrive\\Desktop\\personal projects\\parallax\\examples\\weather-api",
+  "source_language": "typescript",
+  "target_language": "rust",
+  "framework": "express",
+  "database": null,
+  "files_analyzed": 6,
+  "source_files": 4,
+  "tests": 1,
+  "dependencies": 4,
+  "entrypoints": 1,
+  "compatibility": {
+    "language_semantics": 100.0,
+    "dependencies": 90.0,
+    "framework_mappings": 90.0,
+    "tests": 100.0,
+    "configuration": 90.0
+  },
+  "estimate": "HIGH CONFIDENCE",
+  "pack_id": "typescript-express→rust-axum",
+  "dependency_replacements": [
+    [
+      "express",
+      "axum"
+    ]
+  ],
+  "translated_files": [
+    "src/types.rs",
+    "src/service.rs",
+    "src/routes.rs",
+    "src/app.rs",
+    "tests/service_test_test.rs"
+  ],
+  "generated_files": [
+    "src/main.rs",
+    "src/lib.rs",
+    "Cargo.toml",
+    ".env.example",
+    "README.md"
+  ],
+  "manual_reviews": [],
+  "unsupported_regions": [],
+  "source_maps": {
+    "version": 1,
+    "entries": [
+      {
+        "generated_file": "src/types.rs",
+        "generated_line": 5,
+        "generated_column": 1,
+        "original_file": "src/types.ts",
+        "original_line": 2,
+        "original_column": 1,
+        "semantic_node": "Type Weather"
+      },
+      {
+        "generated_file": "src/types.rs",
+        "generated_line": 13,
+        "generated_column": 1,
+        "original_file": "src/types.ts",
+        "original_line": 9,
+        "original_column": 1,
+        "semantic_node": "Type Forecast"
+      },
+      {
+        "generated_file": "src/service.rs",
+        "generated_line": 8,
+        "generated_column": 1,
+        "original_file": "src/service.ts",
+        "original_line": 3,
+        "original_column": 7,
+        "semantic_node": "Const catalog CITIES"
+      },
+      {
+        "generated_file": "src/service.rs",
+        "generated_line": 20,
+        "generated_column": 1,
+        "original_file": "src/service.ts",
+        "original_line": 10,
+        "original_column": 1,
+        "semantic_node": "Function getWeather"
+      },
+      {
+        "generated_file": "src/service.rs",
+        "generated_line": 20,
+        "generated_column": 1,
+        "original_file": "src/service.ts",
+        "original_line": 20,
+        "original_column": 1,
+        "semantic_node": "Function getForecast"
+      },
+      {
+        "generated_file": "src/service.rs",
+        "generated_line": 20,
+        "generated_column": 1,
+        "original_file": "src/service.ts",
+        "original_line": 39,
+        "original_column": 1,
+        "semantic_node": "Function celsiusToFahrenheit"
+      }
+    ]
+  },
+  "build_success": true,
+  "test_results": {
+    "passed": 3,
+    "failed": 0,
+    "output_tail": " on by default\n\nwarning: unused imports: `Deserialize` and `Serialize`\n --> src\\app.rs:4:13\n  |\n4 | use serde::{Deserialize, Serialize};\n  |             ^^^^^^^^^^^  ^^^^^^^^^\n\n   Compiling weather-api v0.1.0 (C:\\Users\\matth\\OneDrive\\Desktop\\personal projects\\parallax\\examples\\weather-api-rust)\nwarning: `weather-api` (lib) generated 2 warnings (run `cargo fix --lib -p weather-api` to apply 2 suggestions)\nwarning: unused import: `service::*`\n --> src\\routes.rs:5:9\n  |\n5 | pub use service::*;\n  |         ^^^^^^^^^^\n\nwarning: unused import: `types::*`\n --> src\\routes.rs:6:9\n  |\n6 | pub use types::*;\n  |         ^^^^^^^^\n\nwarning: `weather-api` (bin \"weather-api\") generated 4 warnings (2 duplicates) (run `cargo fix --bin \"weather-api\" -p weather-api` to apply 2 suggestions)\nwarning: unused imports: `Deserialize` and `Serialize`\n --> tests\\service_test_test.rs:4:13\n  |\n4 | use serde::{Deserialize, Serialize};\n  |             ^^^^^^^^^^^  ^^^^^^^^^\n  |\n  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default\n\nwarning: `weather-api` (test \"service_test_test\") generated 1 warning (run `cargo fix --test \"service_test_test\" -p weather-api` to apply 1 suggestion)\nwarning: `weather-api` (lib test) generated 2 warnings (2 duplicates)\nwarning: `weather-api` (bin \"weather-api\" test) generated 4 warnings (4 duplicates)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.42s\n     Running unittests src\\lib.rs (C:\\Users\\matth\\AppData\\Local\\Temp\\cursor-sandbox-cache\\7da58da8943422aa169f293b69a5bd98\\cargo-target\\debug\\deps\\weather_api-7b82a353b78f6f3f.exe)\n     Running unittests src\\main.rs (C:\\Users\\matth\\AppData\\Local\\Temp\\cursor-sandbox-cache\\7da58da8943422aa169f293b69a5bd98\\cargo-target\\debug\\deps\\weather_api-2fc5d8b11271d4f7.exe)\n     Running tests\\service_test_test.rs (C:\\Users\\matth\\AppData\\Local\\Temp\\cursor-sandbox-cache\\7da58da8943422aa169f293b69a5bd98\\cargo-target\\debug\\deps\\service_test_test-8f6413a3dd896c66.exe)\n   Doc-tests weather_api\n"
+  },
+  "behavioral": {
+    "original_tests_passed": 0,
+    "original_tests_total": 0,
+    "migrated_tests_passed": 3,
+    "migrated_tests_total": 3,
+    "differences": [],
+    "compared_at": "2026-08-11T14:48:22.935598400Z"
+  },
+  "repair_passes": [
+    "Repair pass #1: build ok"
+  ],
+  "dry_run": false,
+  "output_dir": "examples/weather-api-rust",
+  "overall_confidence": "HIGH",
+  "overall_confidence_score": 0.95,
+  "timings_ms": {
+    "analyze": 373,
+    "generate": 3,
+    "build": 10003,
+    "test": 672,
+    "total": 11058
+  },
+  "language_mix": {
+    "typescript": 100.0
+  }
+}
