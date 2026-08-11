@@ -87,6 +87,9 @@ jobs:
             cargo run -q -p parallax-cli --bin plx -- migrate examples/weather-api --to rust -o examples/weather-api-rust --require-build --require-tests
           fi
       - name: Link + CI gate
+        env:
+          # Nested `cargo test` in the migrated example must not inherit workspace -Dwarnings.
+          RUSTFLAGS: ""
         run: |
           rm -rf examples/weather-api-rust/.parallax-link
           cargo run -q -p parallax-cli --bin plx -- link examples/weather-api examples/weather-api-rust

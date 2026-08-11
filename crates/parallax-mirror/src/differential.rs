@@ -36,6 +36,8 @@ impl DifferentialRunner {
         let out = Command::new("cargo")
             .args(["test", "--", "--nocapture"])
             .current_dir(target)
+            .env_remove("RUSTFLAGS")
+            .env_remove("RUSTDOCFLAGS")
             .output()
             .map_err(|e| {
                 ParallaxError::new(ErrorCode::ExecutionFailure, e.to_string())

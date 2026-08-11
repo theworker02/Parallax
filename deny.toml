@@ -5,6 +5,8 @@ all-features = false
 
 [advisories]
 yanked = "warn"
+# fxhash (RUSTSEC-2025-0057) is transitive via wasmtime profiling; not a direct dep.
+unmaintained = "workspace"
 ignore = []
 
 [licenses]
