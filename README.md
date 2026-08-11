@@ -116,6 +116,43 @@ Deep dive: [Architecture](https://parallax-runtime.github.io/parallax/architectu
 
 ---
 
+## Crates
+
+All workspace crates are **v0.1.0**. crates.io publication is **pending** (requires a valid API token); links below are the intended registry URLs.
+
+| Crate | crates.io | docs.rs |
+|---|---|---|
+| [parallax-core](https://crates.io/crates/parallax-core) | core types, errors, versioning | [docs](https://docs.rs/parallax-core/0.1.0) |
+| [parallax-adapter-sdk](https://crates.io/crates/parallax-adapter-sdk) | Atlas adapter contracts | [docs](https://docs.rs/parallax-adapter-sdk/0.1.0) |
+| [parallax-diagnostics](https://crates.io/crates/parallax-diagnostics) | tracing and diagnostics | [docs](https://docs.rs/parallax-diagnostics/0.1.0) |
+| [parallax-ir](https://crates.io/crates/parallax-ir) | PIR value IR | [docs](https://docs.rs/parallax-ir/0.1.0) |
+| [parallax-pcir](https://crates.io/crates/parallax-pcir) | Continuation IR | [docs](https://docs.rs/parallax-pcir/0.1.0) |
+| [parallax-puir](https://crates.io/crates/parallax-puir) | Universal Program IR | [docs](https://docs.rs/parallax-puir/0.1.0) |
+| [parallax-security](https://crates.io/crates/parallax-security) | limits and sandbox policy | [docs](https://docs.rs/parallax-security/0.1.0) |
+| [parallax-project](https://crates.io/crates/parallax-project) | project graph | [docs](https://docs.rs/parallax-project/0.1.0) |
+| [parallax-protocol](https://crates.io/crates/parallax-protocol) | worker NDJSON protocol | [docs](https://docs.rs/parallax-protocol/0.1.0) |
+| [parallax-snapshot](https://crates.io/crates/parallax-snapshot) | `.plx` snapshots | [docs](https://docs.rs/parallax-snapshot/0.1.0) |
+| [parallax-ues](https://crates.io/crates/parallax-ues) | Universal Execution State | [docs](https://docs.rs/parallax-ues/0.1.0) |
+| [parallax-migrate](https://crates.io/crates/parallax-migrate) | migration contracts | [docs](https://docs.rs/parallax-migrate/0.1.0) |
+| [parallax-runtime](https://crates.io/crates/parallax-runtime) | adapter orchestration | [docs](https://docs.rs/parallax-runtime/0.1.0) |
+| [parallax-transmute](https://crates.io/crates/parallax-transmute) | project migration engine | [docs](https://docs.rs/parallax-transmute/0.1.0) |
+| [parallax-adapter-js](https://crates.io/crates/parallax-adapter-js) | Node.js worker adapter | [docs](https://docs.rs/parallax-adapter-js/0.1.0) |
+| [parallax-adapter-python](https://crates.io/crates/parallax-adapter-python) | Python worker adapter | [docs](https://docs.rs/parallax-adapter-python/0.1.0) |
+| [parallax-adapter-wasm](https://crates.io/crates/parallax-adapter-wasm) | WASM adapter | [docs](https://docs.rs/parallax-adapter-wasm/0.1.0) |
+| [parallax-connectors](https://crates.io/crates/parallax-connectors) | 60+ language catalog | [docs](https://docs.rs/parallax-connectors/0.1.0) |
+| [parallax-atlas](https://crates.io/crates/parallax-atlas) | stack detection & adapters | [docs](https://docs.rs/parallax-atlas/0.1.0) |
+| [parallax-mirror](https://crates.io/crates/parallax-mirror) | linked sync & semantic diff | [docs](https://docs.rs/parallax-mirror/0.1.0) |
+| [parallax-horizon](https://crates.io/crates/parallax-horizon) | Event Horizon analysis | [docs](https://docs.rs/parallax-horizon/0.1.0) |
+| [parallax-cli](https://crates.io/crates/parallax-cli) | `plx` / `parallax` CLI | [docs](https://docs.rs/parallax-cli/0.1.0) |
+
+Install the CLI once published:
+
+```bash
+cargo install parallax-cli
+```
+
+---
+
 ## Examples
 
 | Path | Purpose |
