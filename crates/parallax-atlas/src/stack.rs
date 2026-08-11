@@ -85,10 +85,7 @@ pub fn analyze_stack(
                 .find(|r| r.adapter_type == *ty)
                 .map(|r| r.id.as_str())
                 .unwrap_or("?");
-            conflicts.push(format!(
-                "{ty}: {} → selected {winner}",
-                ids.join(", ")
-            ));
+            conflicts.push(format!("{ty}: {} → selected {winner}", ids.join(", ")));
         }
     }
 
@@ -183,24 +180,35 @@ fn suggest_target(
             Some("axum".into())
         }
         (_, "rust", _) => {
-            rationale.push("Default Rust web stack when HTTP detected; otherwise library style".into());
-            if resolved.iter().any(|d| d.id.contains("express") || d.id.contains("fastapi")) {
+            rationale
+                .push("Default Rust web stack when HTTP detected; otherwise library style".into());
+            if resolved
+                .iter()
+                .any(|d| d.id.contains("express") || d.id.contains("fastapi"))
+            {
                 Some("axum".into())
             } else {
                 None
             }
         }
         (_, "go", ProjectKind::RestApi) => {
-            rationale.push("Go REST APIs prefer Chi/Gin; Chi selected for stdlib-friendly routing".into());
+            rationale.push(
+                "Go REST APIs prefer Chi/Gin; Chi selected for stdlib-friendly routing".into(),
+            );
             Some("chi".into())
         }
         (_, "python", ProjectKind::RestApi) => Some("fastapi".into()),
         _ => None,
     };
-    let orm = if resolved.iter().any(|d| d.id.contains("prisma") || d.id.contains("sqlalchemy")) {
+    let orm = if resolved
+        .iter()
+        .any(|d| d.id.contains("prisma") || d.id.contains("sqlalchemy"))
+    {
         match target {
             "rust" => {
-                rationale.push("ORM present → SQLx (query-first) over Diesel for migration safety".into());
+                rationale.push(
+                    "ORM present → SQLx (query-first) over Diesel for migration safety".into(),
+                );
                 Some("sqlx".into())
             }
             "go" => Some("database/sql".into()),

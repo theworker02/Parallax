@@ -79,11 +79,8 @@ mod tests {
 
     #[test]
     fn json_round_trip_and_version() {
-        let mut ues = UniversalExecutionState::checkpoint_shell(
-            RuntimeKind::Python,
-            "demo.py",
-            "cp1",
-        );
+        let mut ues =
+            UniversalExecutionState::checkpoint_shell(RuntimeKind::Python, "demo.py", "cp1");
         ues.pcir = Some(PcirProgram::checkpoint_stub("cp1"));
         let bytes = to_json_bytes(&ues).unwrap();
         let back = from_json_bytes(&bytes).unwrap();
@@ -93,11 +90,8 @@ mod tests {
 
     #[test]
     fn binary_round_trip() {
-        let ues = UniversalExecutionState::checkpoint_shell(
-            RuntimeKind::JavaScript,
-            "demo.js",
-            "mark",
-        );
+        let ues =
+            UniversalExecutionState::checkpoint_shell(RuntimeKind::JavaScript, "demo.js", "mark");
         let bin = to_binary(&ues).unwrap();
         assert!(bin.starts_with(UES_MAGIC));
         let back = from_binary(&bin).unwrap();
@@ -106,11 +100,7 @@ mod tests {
 
     #[test]
     fn rejects_future_ues_version() {
-        let mut ues = UniversalExecutionState::checkpoint_shell(
-            RuntimeKind::Python,
-            "x.py",
-            "a",
-        );
+        let mut ues = UniversalExecutionState::checkpoint_shell(RuntimeKind::Python, "x.py", "a");
         ues.format_version = UES_FORMAT_VERSION + 9;
         let bytes = to_json_bytes_compact(&ues).unwrap();
         let err = from_json_bytes(&bytes).unwrap_err();

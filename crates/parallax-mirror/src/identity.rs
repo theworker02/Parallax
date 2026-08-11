@@ -1,7 +1,7 @@
 //! Stable semantic node identities (not line-number based).
 
-use sha2::{Digest, Sha256};
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 use std::fmt;
 
 /// Stable Parallax semantic ID: `plx:<kind>:<hash8>`.

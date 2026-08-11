@@ -16,7 +16,7 @@ pub use expr::Expr;
 pub use item::{Function, Module, Parameter, PuirItem, TypeDef, Visibility};
 pub use stmt::Stmt;
 pub use types::{PuirType, TypeEvidence, TypeInferenceBundle, TypeInferenceReport};
-pub use version::{PUIR_SCHEMA_VERSION, check_puir_schema};
+pub use version::{check_puir_schema, PUIR_SCHEMA_VERSION};
 
 use indexmap::IndexMap;
 use parallax_core::{ErrorCode, ParallaxError};

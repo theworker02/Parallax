@@ -40,8 +40,13 @@ impl ProjectKind {
 }
 
 pub fn classify_project(ctx: &ProjectContext, framework_ids: &[String]) -> ProjectKind {
-    if ctx.files.iter().any(|f| f.starts_with("apps/") || f.starts_with("packages/") || f.starts_with("services/"))
-        && (ctx.has_manifest("package.json") || ctx.has_manifest("Cargo.toml") || ctx.has_manifest("pnpm-workspace.yaml"))
+    if ctx
+        .files
+        .iter()
+        .any(|f| f.starts_with("apps/") || f.starts_with("packages/") || f.starts_with("services/"))
+        && (ctx.has_manifest("package.json")
+            || ctx.has_manifest("Cargo.toml")
+            || ctx.has_manifest("pnpm-workspace.yaml"))
     {
         return ProjectKind::Monorepo;
     }
@@ -80,7 +85,8 @@ pub fn classify_project(ctx: &ProjectContext, framework_ids: &[String]) -> Proje
     }
     if ctx.has_manifest("Cargo.toml") && !fw.contains("axum") {
         // rust lib vs bin heuristic
-        if ctx.files.iter().any(|f| f == "src/lib.rs") && !ctx.files.iter().any(|f| f == "src/main.rs")
+        if ctx.files.iter().any(|f| f == "src/lib.rs")
+            && !ctx.files.iter().any(|f| f == "src/main.rs")
         {
             return ProjectKind::Library;
         }

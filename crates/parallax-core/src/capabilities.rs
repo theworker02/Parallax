@@ -254,11 +254,7 @@ impl RuntimeCapabilities {
     }
 
     /// Require a usable capability or return a structured `CapabilityViolation`.
-    pub fn require(
-        &self,
-        name: &str,
-        runtime: &crate::runtime::RuntimeKind,
-    ) -> crate::Result<()> {
+    pub fn require(&self, name: &str, runtime: &crate::runtime::RuntimeKind) -> crate::Result<()> {
         let level = self.level_of(name).unwrap_or(CapabilityLevel::No);
         if level.is_usable() {
             return Ok(());

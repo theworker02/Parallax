@@ -56,7 +56,11 @@ impl MigrationPlanner {
         let min_conf = if opts.strict { 0.85 } else { 0.55 };
         let mut chosen = Vec::new();
         for dep in &analysis.graph.packages {
-            if dep.dev && matches!(dep.name.as_str(), "typescript" | "@types/node" | "@types/express" | "ts-node")
+            if dep.dev
+                && matches!(
+                    dep.name.as_str(),
+                    "typescript" | "@types/node" | "@types/express" | "ts-node"
+                )
             {
                 continue;
             }
@@ -77,9 +81,11 @@ impl MigrationPlanner {
         let mut modules = Vec::new();
         let mut preserve = Vec::new();
         for f in &analysis.graph.files {
-            if opts.keep.iter().any(|k| {
-                f.language.as_deref() == Some(k) || f.path.ends_with(k) || f.role == *k
-            }) {
+            if opts
+                .keep
+                .iter()
+                .any(|k| f.language.as_deref() == Some(k) || f.path.ends_with(k) || f.role == *k)
+            {
                 preserve.push(f.path.clone());
                 continue;
             }

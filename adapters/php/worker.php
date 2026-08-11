@@ -125,7 +125,9 @@ function handle_execute($id, $payload) {
         ob_start();
         // Isolate symbols in a local scope via include of a temp file for capture.
         $tmp = tempnam(sys_get_temp_dir(), "plxphp");
-        file_put_contents($tmp, "<?php\n" . $source);
+        // Guest sources often include their own `<?php` opener; avoid doubling it.
+        $body = preg_replace('/^\s*<\?php(\s+)?/', '', $source);
+        file_put_contents($tmp, "<?php\n" . $body);
         $__plx_scope = [];
         // Capture declared variables by extracting after include.
         include $tmp;

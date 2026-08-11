@@ -12,8 +12,8 @@ use parallax_core::{
 use parallax_ir::PirDocument;
 use parallax_protocol::{
     validate_hello, Envelope, ExecuteRequest, ExecuteResponse, HelloRequest, HelloResponse,
-    ProtocolError, ResumeCheckpointRequest, ResumeCheckpointResponse, RestoreRequest,
-    RestoreResponse,
+    ProtocolError, RestoreRequest, RestoreResponse, ResumeCheckpointRequest,
+    ResumeCheckpointResponse,
 };
 use parallax_runtime::{discover_javascript, BoxRuntimeAdapter, RuntimeAdapter, WorkerProcess};
 use parallax_security::SandboxPolicy;
@@ -79,17 +79,17 @@ impl JsAdapter {
             });
             return Err(err.into_parallax(Some(RuntimeKind::JavaScript)));
         }
-        let hello_payload: HelloResponse =
-            serde_json::from_value(resp.payload.unwrap_or(serde_json::Value::Null)).map_err(
-                |e| {
-                    ParallaxError::new(
-                        ErrorCode::ProtocolViolation,
-                        format!("invalid hello response: {e}"),
-                    )
-                    .with_runtime(RuntimeKind::JavaScript)
-                    .with_source("parallax-adapter-js")
-                },
-            )?;
+        let hello_payload: HelloResponse = serde_json::from_value(
+            resp.payload.unwrap_or(serde_json::Value::Null),
+        )
+        .map_err(|e| {
+            ParallaxError::new(
+                ErrorCode::ProtocolViolation,
+                format!("invalid hello response: {e}"),
+            )
+            .with_runtime(RuntimeKind::JavaScript)
+            .with_source("parallax-adapter-js")
+        })?;
         validate_hello(&hello_payload)?;
         Ok(worker)
     }
@@ -290,9 +290,7 @@ impl RuntimeAdapter for JsAdapter {
             "restore",
             serde_json::to_value(RestoreRequest { bindings, limits })?,
         );
-        let resp = worker
-            .request_bounded(env, wait, max_message_bytes)
-            .await;
+        let resp = worker.request_bounded(env, wait, max_message_bytes).await;
         worker.shutdown().await;
         let resp = resp?;
         if resp.ok != Some(true) {
@@ -330,9 +328,7 @@ impl JsAdapter {
             "resume_checkpoint",
             serde_json::to_value(ResumeCheckpointRequest { ues, limits })?,
         );
-        let resp = worker
-            .request_bounded(env, wait, max_message_bytes)
-            .await;
+        let resp = worker.request_bounded(env, wait, max_message_bytes).await;
         worker.shutdown().await;
         let resp = resp?;
         if resp.ok != Some(true) {

@@ -14,10 +14,13 @@ pub async fn cmd_link(
     policy: String,
 ) -> Result<(), ParallaxError> {
     let policy = SyncPolicy::parse(&policy).ok_or_else(|| {
-        ParallaxError::new(ErrorCode::InvalidArgument, format!("unknown policy: {policy}"))
-            .remediate(Remediation::new(
-                "Use source-authoritative|target-authoritative|bidirectional|manual",
-            ))
+        ParallaxError::new(
+            ErrorCode::InvalidArgument,
+            format!("unknown policy: {policy}"),
+        )
+        .remediate(Remediation::new(
+            "Use source-authoritative|target-authoritative|bidirectional|manual",
+        ))
     })?;
     let link = link_projects(&source, &target, policy).await?;
     if json {
@@ -93,12 +96,25 @@ pub async fn cmd_sync(
             if report.changes == 0 {
                 println!("  (none)");
             }
-            println!("Regenerating..............{}", if report.files_touched.is_empty() && report.changes > 0 { "partial" } else { "done" });
+            println!(
+                "Regenerating..............{}",
+                if report.files_touched.is_empty() && report.changes > 0 {
+                    "partial"
+                } else {
+                    "done"
+                }
+            );
             if let Some(b) = report.build_ok {
-                println!("Building..................{}", if b { "done" } else { "failed" });
+                println!(
+                    "Building..................{}",
+                    if b { "done" } else { "failed" }
+                );
             }
             if let Some(t) = report.tests_ok {
-                println!("Running tests.............{}", if t { "done" } else { "failed" });
+                println!(
+                    "Running tests.............{}",
+                    if t { "done" } else { "failed" }
+                );
             }
             println!("Differential verification.done");
             println!("{}", report.message);
@@ -113,12 +129,11 @@ pub async fn cmd_sync(
         }
     }
     if check && report.out_of_date {
-        return Err(ParallaxError::new(
-            ErrorCode::MigrationRejected,
-            "link out of date",
-        )
-        .with_source("parallax-cli")
-        .with_operation("sync --check"));
+        return Err(
+            ParallaxError::new(ErrorCode::MigrationRejected, "link out of date")
+                .with_source("parallax-cli")
+                .with_operation("sync --check"),
+        );
     }
     if !check && (report.build_ok == Some(false) || report.tests_ok == Some(false)) {
         return Err(ParallaxError::new(
@@ -169,7 +184,18 @@ pub async fn cmd_status(json: bool, path: PathBuf) -> Result<(), ParallaxError> 
 }
 
 pub async fn cmd_ci(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
-    cmd_sync(json, path.clone(), true, false, false, false, false, false, false).await?;
+    cmd_sync(
+        json,
+        path.clone(),
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+    )
+    .await?;
     let link = load_link(&path)?;
     let results = DifferentialRunner::verify_target_tests(std::path::Path::new(&link.target_root))?;
     if json {
@@ -177,7 +203,11 @@ pub async fn cmd_ci(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
     } else {
         println!("plx ci: sync --check OK");
         for r in &results {
-            println!("verify: {} — {}", r.name, if r.matched { "PASS" } else { "FAIL" });
+            println!(
+                "verify: {} — {}",
+                r.name,
+                if r.matched { "PASS" } else { "FAIL" }
+            );
         }
     }
     if results.iter().any(|r| !r.matched) {
@@ -199,7 +229,10 @@ pub fn cmd_history(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
         for (i, e) in hist.entries.iter().enumerate() {
             println!(
                 "#{i} {} changes={} files={} {}",
-                e.at, e.semantic_changes, e.files_touched.len(), e.verification
+                e.at,
+                e.semantic_changes,
+                e.files_touched.len(),
+                e.verification
             );
         }
         if hist.entries.is_empty() {
@@ -212,7 +245,10 @@ pub fn cmd_history(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
 pub fn cmd_rollback(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
     let msg = rollback(&path)?;
     if json {
-        println!("{{\"ok\":true,\"message\":{}}}", serde_json::to_string(&msg).unwrap());
+        println!(
+            "{{\"ok\":true,\"message\":{}}}",
+            serde_json::to_string(&msg).unwrap()
+        );
     } else {
         println!("{msg}");
     }

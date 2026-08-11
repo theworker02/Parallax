@@ -887,12 +887,9 @@ pub static CONNECTORS: &[ConnectorDef] = &[
 /// Look up by id or alias.
 pub fn find(name: &str) -> Option<&'static ConnectorDef> {
     let key = name.to_ascii_lowercase();
-    CONNECTORS.iter().find(|c| {
-        c.id == key
-            || c.aliases
-                .iter()
-                .any(|a| a.eq_ignore_ascii_case(&key))
-    })
+    CONNECTORS
+        .iter()
+        .find(|c| c.id == key || c.aliases.iter().any(|a| a.eq_ignore_ascii_case(&key)))
 }
 
 /// Infer connector id from file extension.
@@ -944,7 +941,11 @@ mod tests {
 
     #[test]
     fn catalog_is_large() {
-        assert!(CONNECTORS.len() >= 50, "expected broad catalog, got {}", CONNECTORS.len());
+        assert!(
+            CONNECTORS.len() >= 50,
+            "expected broad catalog, got {}",
+            CONNECTORS.len()
+        );
     }
 
     #[test]

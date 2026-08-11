@@ -67,13 +67,18 @@ pub async fn cmd_transmute(
             ErrorCode::InvalidArgument,
             format!("unknown target language: {to}"),
         )
-        .remediate(Remediation::new("Supported targets include: rust, go, python, typescript"))
+        .remediate(Remediation::new(
+            "Supported targets include: rust, go, python, typescript",
+        ))
     })?;
     let from_lang = from
         .as_ref()
         .map(|s| {
             SourceLanguage::parse(s).ok_or_else(|| {
-                ParallaxError::new(ErrorCode::InvalidArgument, format!("unknown --from language: {s}"))
+                ParallaxError::new(
+                    ErrorCode::InvalidArgument,
+                    format!("unknown --from language: {s}"),
+                )
             })
         })
         .transpose()?;
@@ -124,9 +129,12 @@ pub async fn cmd_transmute(
 fn print_transmute(json: bool, result: &TransmuteResult) -> Result<(), ParallaxError> {
     let r = &result.report;
     if json {
-        println!("{}", serde_json::to_string_pretty(r).map_err(|e| {
-            ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
-        })?);
+        println!(
+            "{}",
+            serde_json::to_string_pretty(r).map_err(|e| {
+                ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
+            })?
+        );
         return Ok(());
     }
     println!(" PARALLAX TRANSMUTE");
@@ -202,8 +210,7 @@ fn print_transmute(json: bool, result: &TransmuteResult) -> Result<(), ParallaxE
     println!();
     println!("Estimated migration:");
     println!("  {}", r.estimate);
-    println!(
-        "Potential manual review:");
+    println!("Potential manual review:");
     println!("  {} locations", r.manual_reviews.len());
     if !r.dependency_replacements.is_empty() {
         println!();
@@ -236,10 +243,7 @@ fn print_transmute(json: bool, result: &TransmuteResult) -> Result<(), ParallaxE
             println!("  {out}/PARALLAX_MIGRATION.md");
         }
         println!();
-        println!(
-            "Completed in {:.1} ms",
-            r.timings_ms.total as f64
-        );
+        println!("Completed in {:.1} ms", r.timings_ms.total as f64);
     }
     Ok(())
 }

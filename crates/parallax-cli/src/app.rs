@@ -101,11 +101,15 @@ pub async fn run(cli: Cli) -> Result<(), ParallaxError> {
             } else {
                 Err(ParallaxError::new(
                     ErrorCode::InvalidArgument,
-                    format!("unknown migrate --mode {mode} (expected auto|value|continuation|project)"),
+                    format!(
+                        "unknown migrate --mode {mode} (expected auto|value|continuation|project)"
+                    ),
                 ))
             }
         }
-        Commands::Origin { location, project } => crate::transmute_cmd::cmd_origin(json, location, project),
+        Commands::Origin { location, project } => {
+            crate::transmute_cmd::cmd_origin(json, location, project)
+        }
         Commands::Continuum {
             file,
             runtime,
@@ -177,9 +181,7 @@ pub async fn run(cli: Cli) -> Result<(), ParallaxError> {
             crate::atlas_cmd::cmd_compatibility(json, source, target)
         }
         Commands::Unsupported { path } => crate::atlas_cmd::cmd_unsupported(json, path),
-        Commands::ExplainStack { path, to } => {
-            crate::atlas_cmd::cmd_explain_stack(json, path, to)
-        }
+        Commands::ExplainStack { path, to } => crate::atlas_cmd::cmd_explain_stack(json, path, to),
         Commands::Observe { path } => crate::horizon_cmd::cmd_observe(json, path),
         Commands::Impossible { path, to, strategy } => {
             crate::horizon_cmd::cmd_impossible(json, path, to, strategy)
@@ -254,7 +256,9 @@ pub async fn run(cli: Cli) -> Result<(), ParallaxError> {
         Commands::Ci { path } => crate::mirror_cmd::cmd_ci(json, path).await,
         Commands::History { path } => crate::mirror_cmd::cmd_history(json, path),
         Commands::Rollback { path } => crate::mirror_cmd::cmd_rollback(json, path),
-        Commands::Explain { location, path } => crate::mirror_cmd::cmd_explain(json, path, location),
+        Commands::Explain { location, path } => {
+            crate::mirror_cmd::cmd_explain(json, path, location)
+        }
         Commands::Why { file, path } => crate::mirror_cmd::cmd_why(json, path, file),
         Commands::Verify {
             path,

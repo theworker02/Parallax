@@ -63,8 +63,9 @@ pub fn diff_programs(base: &PuirProgram, current: &PuirProgram) -> SemanticDiff 
         match base_fns.get(name) {
             None => {
                 // Rename detection: same signature+body, different name
-                if let Some((old_name, _old)) =
-                    base_fns.iter().find(|(_, v)| v.2 == *body_hash && v.1 == *sig)
+                if let Some((old_name, _old)) = base_fns
+                    .iter()
+                    .find(|(_, v)| v.2 == *body_hash && v.1 == *sig)
                 {
                     if old_name != name {
                         changes.push(SemanticChange {
@@ -130,7 +131,8 @@ pub fn diff_programs(base: &PuirProgram, current: &PuirProgram) -> SemanticDiff 
         if !cur_fns.contains_key(name) {
             // skip if rename already recorded
             if changes.iter().any(|c| {
-                matches!(c.kind, ChangeKind::RenamedSymbol) && c.detail.starts_with(&format!("{name} →"))
+                matches!(c.kind, ChangeKind::RenamedSymbol)
+                    && c.detail.starts_with(&format!("{name} →"))
             }) {
                 continue;
             }
@@ -181,14 +183,7 @@ pub fn diff_programs(base: &PuirProgram, current: &PuirProgram) -> SemanticDiff 
     SemanticDiff { changes }
 }
 
-type FnEntry = (
-    SemanticId,
-    String,
-    String,
-    Option<String>,
-    PuirType,
-    bool,
-);
+type FnEntry = (SemanticId, String, String, Option<String>, PuirType, bool);
 
 fn index_functions(prog: &PuirProgram) -> IndexMap<String, FnEntry> {
     let mut out = IndexMap::new();
@@ -200,10 +195,7 @@ fn index_functions(prog: &PuirProgram) -> IndexMap<String, FnEntry> {
                 let id = SemanticId::derive("function", &qn, &sig);
                 let body = hash_json(&f.body);
                 let file = f.span.as_ref().map(|s| s.file.clone());
-                out.insert(
-                    qn,
-                    (id, sig, body, file, f.return_type.clone(), f.async_),
-                );
+                out.insert(qn, (id, sig, body, file, f.return_type.clone(), f.async_));
             }
         }
     }
@@ -347,8 +339,12 @@ mod tests {
         // force same body hash path: sum with +
         let d = diff_programs(&a, &b);
         assert!(
-            d.changes.iter().any(|c| matches!(c.kind, ChangeKind::RenamedSymbol))
-                || d.changes.iter().any(|c| matches!(c.kind, ChangeKind::AddedFunction)),
+            d.changes
+                .iter()
+                .any(|c| matches!(c.kind, ChangeKind::RenamedSymbol))
+                || d.changes
+                    .iter()
+                    .any(|c| matches!(c.kind, ChangeKind::AddedFunction)),
             "expected rename or add/remove pair: {:?}",
             d.changes
         );

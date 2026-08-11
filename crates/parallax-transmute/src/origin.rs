@@ -34,7 +34,10 @@ pub struct SourceMapFile {
 }
 
 /// Look up origin for `file:line` in a migrated project.
-pub fn lookup_origin(project_root: &Path, file_line: &str) -> Result<SourceMapEntry, ParallaxError> {
+pub fn lookup_origin(
+    project_root: &Path,
+    file_line: &str,
+) -> Result<SourceMapEntry, ParallaxError> {
     let (file, line) = parse_file_line(file_line)?;
     let map_path = project_root.join(".plxmap.json");
     if !map_path.exists() {

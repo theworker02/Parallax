@@ -181,7 +181,10 @@ mod tests {
         )
         .unwrap();
         assert!(report.success);
-        assert!(matches!(out.binding("fn"), Some(PirValue::Unsupported { .. })));
+        assert!(matches!(
+            out.binding("fn"),
+            Some(PirValue::Unsupported { .. })
+        ));
     }
 
     #[test]

@@ -37,12 +37,7 @@ pub fn cmd_connectors(
                 println!("\nHighlighted pairs involving {}:", def.id);
                 for p in &snap.highlighted_pairs {
                     if p.source == def.id || p.target == def.id {
-                        println!(
-                            "  {} → {}  [{}]",
-                            p.source,
-                            p.target,
-                            p.maturity.as_str()
-                        );
+                        println!("  {} → {}  [{}]", p.source, p.target, p.maturity.as_str());
                     }
                 }
             }
@@ -106,16 +101,13 @@ pub fn cmd_connectors(
     }
     println!("RT=runtime adapter  SRC=transmute source  TGT=transmute target");
     println!("Production execute/migrate today: python, javascript, wasm (+ typescript analyze).");
-    println!("Scaffold = registered identity; execute/restore return Unsupported until implemented.");
+    println!(
+        "Scaffold = registered identity; execute/restore return Unsupported until implemented."
+    );
     if pairs {
         println!("HIGHLIGHTED PAIRS");
         for p in &snap.highlighted_pairs {
-            let line = format!(
-                "  {} → {}  [{}]",
-                p.source,
-                p.target,
-                p.maturity.as_str()
-            );
+            let line = format!("  {} → {}  [{}]", p.source, p.target, p.maturity.as_str());
             println!("{line}");
         }
     } else {

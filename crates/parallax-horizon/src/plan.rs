@@ -6,9 +6,9 @@ use crate::behavior::{
 use crate::ir::{ConcurrencyGraph, ShapeInferencer, TypeCrystallizer};
 use crate::semantics::{
     BoundarySynthesizer, CapsuleCapability, CapsuleGenerator, DebtBreakdown, DebtTracker,
-    IslandDissolver, MetaprogramExpander, PolyglotIsland, PreservationDecision,
-    PreservationPolicy, PreservationStrategy, SemanticBarrier, SemanticHazardDatabase,
-    SemanticMinifier, SemanticPreservationEngine, StrategySearcher,
+    IslandDissolver, MetaprogramExpander, PolyglotIsland, PreservationDecision, PreservationPolicy,
+    PreservationStrategy, SemanticBarrier, SemanticHazardDatabase, SemanticMinifier,
+    SemanticPreservationEngine, StrategySearcher,
 };
 use crate::vcs::SemanticGit;
 use parallax_atlas::build_project_context;
@@ -73,7 +73,10 @@ pub fn analyze_impossible(
         id += 1;
     }
     for b in &obs.migration_barriers {
-        if !barriers.iter().any(|x| x.detail.contains(b) || x.location.contains(b)) {
+        if !barriers
+            .iter()
+            .any(|x| x.detail.contains(b) || x.location.contains(b))
+        {
             let kind = b.split_whitespace().next().unwrap_or("barrier");
             let decision = engine.decide(kind, 0.7);
             barriers.push(SemanticBarrier {
@@ -158,8 +161,9 @@ pub fn analyze_impossible(
         expected_compatibility_pct: compat,
         polyglot_requirement_pct: island,
         strategy_options_sample,
-        notes: "Estimates from static dynamic-signal heuristics + strategy costs — verify with tests"
-            .into(),
+        notes:
+            "Estimates from static dynamic-signal heuristics + strategy costs — verify with tests"
+                .into(),
     })
 }
 
@@ -252,26 +256,20 @@ pub fn build_horizon_plan(
             .count() as f64,
     );
 
-    let triangulation = SemanticTriangulator.combine(
-        0.72,
-        0.0,
-        if obs.languages.is_empty() {
-            0.0
-        } else {
-            0.5
-        },
-    );
+    let triangulation =
+        SemanticTriangulator.combine(0.72, 0.0, if obs.languages.is_empty() { 0.0 } else { 0.5 });
 
     // Touch related subsystems so the plan is a real integration surface.
     let _ = ConcurrencyGraph::from_signals(
-        &obs.concurrency.iter().map(|s| s.as_str()).collect::<Vec<_>>(),
+        &obs.concurrency
+            .iter()
+            .map(|s| s.as_str())
+            .collect::<Vec<_>>(),
     );
     let _ = BehaviorExplorer.plan_default_inputs("normalize_user");
     let _ = SemanticFuzzer.cross_language_hazards();
-    let _ = TypeCrystallizer.from_shape(&ShapeInferencer.from_accesses(
-        "User",
-        &["name", "email", "permissions"],
-    ));
+    let _ = TypeCrystallizer
+        .from_shape(&ShapeInferencer.from_accesses("User", &["name", "email", "permissions"]));
     let _ = MetaprogramExpander.lower_decorator("dataclass");
     let _ = build_project_context(root); // ensure atlas context path still works
 
@@ -317,7 +315,10 @@ pub fn dissolve_project(root: &Path, to: Option<&str>) -> Result<serde_json::Val
     }))
 }
 
-pub fn optimize_migration(root: &Path, to: Option<&str>) -> Result<serde_json::Value, ParallaxError> {
+pub fn optimize_migration(
+    root: &Path,
+    to: Option<&str>,
+) -> Result<serde_json::Value, ParallaxError> {
     let plan = build_horizon_plan(root, to, Some(PreservationPolicy::MaximumNative))?;
     Ok(serde_json::json!({
         "root": plan.root,

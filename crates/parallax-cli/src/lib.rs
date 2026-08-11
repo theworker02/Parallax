@@ -341,9 +341,7 @@ pub enum Commands {
         location: String,
     },
     /// Event Horizon: semantic cherry-pick (scaffold).
-    CherryPick {
-        commit: String,
-    },
+    CherryPick { commit: String },
     /// Event Horizon: show / emit a semantic patch (.plxp) example.
     Patch {
         /// Print the built-in example patch.
@@ -473,9 +471,7 @@ pub enum AdaptersCommand {
         id: String,
     },
     /// Show capability flags only.
-    Capabilities {
-        id: String,
-    },
+    Capabilities { id: String },
     /// Health scores.
     Health,
     /// Check / apply adapter package updates (built-ins only today).
@@ -491,13 +487,9 @@ pub enum AdaptersCommand {
 #[derive(Debug, Subcommand)]
 pub enum AdapterCommand {
     /// Generate a new adapter scaffold (not yet implemented).
-    New {
-        name: String,
-    },
+    New { name: String },
     /// Validate an adapter package (not yet implemented).
-    Validate {
-        path: PathBuf,
-    },
+    Validate { path: PathBuf },
 }
 
 /// Version output format.

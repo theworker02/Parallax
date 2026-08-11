@@ -31,7 +31,11 @@ pub fn register_all_lenient(manager: &RuntimeManager) {
         }
         manager.register(scaffold::ScaffoldAdapter::boxed(def));
         n += 1;
-        debug!(id = def.id, maturity = def.maturity.as_str(), "registered scaffold connector");
+        debug!(
+            id = def.id,
+            maturity = def.maturity.as_str(),
+            "registered scaffold connector"
+        );
     }
     debug!(
         scaffolds = n,

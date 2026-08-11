@@ -10,7 +10,7 @@ pub use graph::{
     DependencyRef, Entrypoint, GraphEdge, GraphEdgeKind, GraphNode, GraphNodeKind, ProjectFile,
     ProjectGraph, ProjectPackage, Relationship,
 };
-pub use lang::{SourceLanguage, TargetLanguage, detect_languages};
+pub use lang::{detect_languages, SourceLanguage, TargetLanguage};
 
 use chrono::{DateTime, Utc};
 use indexmap::IndexMap;

@@ -108,9 +108,7 @@ pub fn continuation_matrix(runtime: RuntimeKind) -> ContinuationCapabilityMatrix
                 "explicit_checkpoint_capture",
                 "Explicit checkpoint capture",
                 match runtime {
-                    RuntimeKind::Python | RuntimeKind::JavaScript => {
-                        CapabilityLevel::Experimental
-                    }
+                    RuntimeKind::Python | RuntimeKind::JavaScript => CapabilityLevel::Experimental,
                     _ => CapabilityLevel::No,
                 },
                 Some("Real UES at parallax.checkpoint"),
@@ -119,9 +117,7 @@ pub fn continuation_matrix(runtime: RuntimeKind) -> ContinuationCapabilityMatrix
                 "same_runtime_resume",
                 "Same-runtime resume",
                 match runtime {
-                    RuntimeKind::Python | RuntimeKind::JavaScript => {
-                        CapabilityLevel::Experimental
-                    }
+                    RuntimeKind::Python | RuntimeKind::JavaScript => CapabilityLevel::Experimental,
                     _ => CapabilityLevel::No,
                 },
                 Some("Resume post-checkpoint source with restored bindings"),

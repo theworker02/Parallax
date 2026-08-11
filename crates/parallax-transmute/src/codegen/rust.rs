@@ -81,7 +81,7 @@ pub fn generate_rust_project(
             // Routes are bridged from main for Express→Axum; keep types/imports stub.
             (
                 format!(
-                    "//! Migrated from `{}` — HTTP handlers are wired in `main.rs` (Express → Axum).\nuse crate::service;\nuse crate::types;\n\npub use service::*;\npub use types::*;\n",
+                    "//! Migrated from `{}` — HTTP handlers are wired in `main.rs` (Express → Axum).\n",
                     module.path
                 ),
                 Vec::new(),
@@ -175,7 +175,7 @@ fn emit_service_module(
     let mut reviews = Vec::new();
     let mut out = String::new();
     out.push_str(&format!(
-        "//! Migrated from `{}` (semantic service lowering)\nuse serde::{{Deserialize, Serialize}};\nuse crate::types::*;\n\n",
+        "//! Migrated from `{}` (semantic service lowering)\nuse crate::types::*;\n\n",
         module.path
     ));
 
@@ -303,10 +303,7 @@ fn emit_service_module(
 }
 
 fn module_rust_name(id: &str) -> String {
-    id.rsplit('/')
-        .next()
-        .unwrap_or(id)
-        .replace(['-', '.'], "_")
+    id.rsplit('/').next().unwrap_or(id).replace(['-', '.'], "_")
 }
 
 fn emit_lib(mods: &[String]) -> String {
@@ -332,9 +329,13 @@ fn emit_main(mods: &[String], routes: &[RouteMeta], has_axum: bool, _idiomatic: 
         s.push_str("use std::net::SocketAddr;\n\n");
         // Bridge handlers when routes module exists — call into service when possible.
         if mods.iter().any(|m| m == "routes") && mods.iter().any(|m| m == "service") {
-            s.push_str("async fn weather_handler(Path(city): Path<String>) -> Json<serde_json::Value> {\n");
+            s.push_str(
+                "async fn weather_handler(Path(city): Path<String>) -> Json<serde_json::Value> {\n",
+            );
             s.push_str("    let weather = service::get_weather(&city);\n");
-            s.push_str("    let temperature_f = service::celsius_to_fahrenheit(weather.temperature_c);\n");
+            s.push_str(
+                "    let temperature_f = service::celsius_to_fahrenheit(weather.temperature_c);\n",
+            );
             s.push_str("    Json(serde_json::json!({\n");
             s.push_str("        \"city\": weather.city,\n");
             s.push_str("        \"temperatureC\": weather.temperature_c,\n");
@@ -378,7 +379,9 @@ fn emit_main(mods: &[String], routes: &[RouteMeta], has_axum: bool, _idiomatic: 
         s.push_str("        ;\n");
         s.push_str("    let port: u16 = std::env::var(\"PORT\").ok().and_then(|p| p.parse().ok()).unwrap_or(3000);\n");
         s.push_str("    let addr = SocketAddr::from(([0, 0, 0, 0], port));\n");
-        s.push_str("    let listener = tokio::net::TcpListener::bind(addr).await.expect(\"bind\");\n");
+        s.push_str(
+            "    let listener = tokio::net::TcpListener::bind(addr).await.expect(\"bind\");\n",
+        );
         s.push_str("    axum::serve(listener, app).await.expect(\"serve\");\n");
         s.push_str("}\n");
     } else {
@@ -426,7 +429,10 @@ fn emit_cargo_toml(
     deps.insert("serde_json".into(), "\"1\"".into());
     if has_axum {
         deps.insert("axum".into(), "\"0.7\"".into());
-        deps.insert("tokio".into(), "{ version = \"1\", features = [\"full\"] }".into());
+        deps.insert(
+            "tokio".into(),
+            "{ version = \"1\", features = [\"full\"] }".into(),
+        );
     }
     let source_pkgs: Vec<&str> = analysis
         .graph
@@ -473,7 +479,11 @@ fn rust_crate_spec(name: &str) -> Option<String> {
         "thiserror" => "\"2\"".into(),
         "chrono" => "{ version = \"0.4\", features = [\"serde\"] }".into(),
         "uuid" => "{ version = \"1\", features = [\"v4\", \"serde\"] }".into(),
-        other if other.chars().all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-') => {
+        other
+            if other
+                .chars()
+                .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-') =>
+        {
             "\"1\"".to_string()
         }
         _ => return None,
@@ -519,9 +529,15 @@ fn emit_module(
         "//! Migrated from `{}`\n//! Origin language: {}\n\n",
         module.path, module.origin_language
     ));
-    out.push_str("use serde::{Deserialize, Serialize};\n\n");
+    let needs_serde = module
+        .items
+        .iter()
+        .any(|item| matches!(item, PuirItem::Type(_)));
+    if needs_serde {
+        out.push_str("use serde::{Deserialize, Serialize};\n\n");
+    }
 
-    let mut line = 5u32;
+    let mut line = if needs_serde { 5u32 } else { 3u32 };
     for item in &module.items {
         match item {
             PuirItem::Type(t) => {
@@ -701,9 +717,10 @@ fn emit_function(
         })
         .collect();
     // Detect axum handler: (req-like) or (Path)
-    let is_handler = f.params.iter().any(|p| {
-        p.name == "req" || p.name == "res" || p.name == "request" || p.name == "city"
-    });
+    let is_handler = f
+        .params
+        .iter()
+        .any(|p| p.name == "req" || p.name == "res" || p.name == "request" || p.name == "city");
     let ret = if is_handler && f.async_ {
         "axum::Json<serde_json::Value>".into()
     } else {
@@ -732,20 +749,38 @@ fn emit_function(
     (s, lines, unsupported, reviews)
 }
 
-fn emit_stmt(stmt: &Stmt, plan: &MigrationPlan, _idiomatic: bool, indent: usize) -> (String, u32, Vec<String>) {
+fn emit_stmt(
+    stmt: &Stmt,
+    plan: &MigrationPlan,
+    _idiomatic: bool,
+    indent: usize,
+) -> (String, u32, Vec<String>) {
     let pad = "    ".repeat(indent);
     let mut unsupported = Vec::new();
     match stmt {
-        Stmt::Declare { name, mutable, value, .. } => {
+        Stmt::Declare {
+            name,
+            mutable,
+            value,
+            ..
+        } => {
             let kw = if *mutable { "let mut" } else { "let" };
             let val = value
                 .as_ref()
                 .map(|v| emit_expr(v, plan))
                 .unwrap_or_else(|| "Default::default()".into());
-            (format!("{pad}{kw} {} = {val};\n", rust_ident(name)), 1, unsupported)
+            (
+                format!("{pad}{kw} {} = {val};\n", rust_ident(name)),
+                1,
+                unsupported,
+            )
         }
         Stmt::Assign { target, value, .. } => (
-            format!("{pad}{} = {};\n", rust_ident(target), emit_expr(value, plan)),
+            format!(
+                "{pad}{} = {};\n",
+                rust_ident(target),
+                emit_expr(value, plan)
+            ),
             1,
             unsupported,
         ),
@@ -756,11 +791,7 @@ fn emit_stmt(stmt: &Stmt, plan: &MigrationPlan, _idiomatic: bool, indent: usize)
                 .unwrap_or_else(|| "()".into());
             (format!("{pad}return {v};\n"), 1, unsupported)
         }
-        Stmt::Expr { expr, .. } => (
-            format!("{pad}{};\n", emit_expr(expr, plan)),
-            1,
-            unsupported,
-        ),
+        Stmt::Expr { expr, .. } => (format!("{pad}{};\n", emit_expr(expr, plan)), 1, unsupported),
         Stmt::Branch {
             condition,
             then_body,
@@ -867,7 +898,10 @@ fn emit_expr(expr: &Expr, plan: &MigrationPlan) -> String {
             format!("{c}({a})")
         }
         Expr::BinaryOp {
-            operator, left, right, ..
+            operator,
+            left,
+            right,
+            ..
         } => {
             let op = match operator.as_str() {
                 "===" | "==" => "==",
@@ -882,7 +916,9 @@ fn emit_expr(expr: &Expr, plan: &MigrationPlan) -> String {
                 emit_expr(right, plan)
             )
         }
-        Expr::UnaryOp { operator, operand, .. } => {
+        Expr::UnaryOp {
+            operator, operand, ..
+        } => {
             format!("({operator}{})", emit_expr(operand, plan))
         }
         Expr::Construct { fields, .. } => {
@@ -905,15 +941,21 @@ fn emit_expr(expr: &Expr, plan: &MigrationPlan) -> String {
         Expr::Intrinsic { name, args, .. } => match name.as_str() {
             "json.parse" => format!(
                 "serde_json::from_str::<serde_json::Value>({}).expect(\"json\")",
-                args.first().map(|a| emit_expr(a, plan)).unwrap_or_else(|| "\"{}\"".into())
+                args.first()
+                    .map(|a| emit_expr(a, plan))
+                    .unwrap_or_else(|| "\"{}\"".into())
             ),
             "json.stringify" => format!(
                 "serde_json::to_string(&{}).expect(\"json\")",
-                args.first().map(|a| emit_expr(a, plan)).unwrap_or_else(|| "()".into())
+                args.first()
+                    .map(|a| emit_expr(a, plan))
+                    .unwrap_or_else(|| "()".into())
             ),
             "env.get" => format!(
                 "std::env::var({}).unwrap_or_default()",
-                args.first().map(|a| emit_expr(a, plan)).unwrap_or_else(|| "\"\"".into())
+                args.first()
+                    .map(|a| emit_expr(a, plan))
+                    .unwrap_or_else(|| "\"\"".into())
             ),
             other => {
                 let mapped = plan.stdlib_mappings.get(other);
@@ -939,11 +981,7 @@ fn emit_expr(expr: &Expr, plan: &MigrationPlan) -> String {
         } => {
             if let Expr::Name { name, .. } = collection.as_ref() {
                 // Map-like const lookup generated as `<name>_lookup`
-                return format!(
-                    "{}_lookup(&{})",
-                    rust_ident(name),
-                    emit_expr(index, plan)
-                );
+                return format!("{}_lookup(&{})", rust_ident(name), emit_expr(index, plan));
             }
             format!(
                 "{}[{} as usize].clone()",
@@ -951,7 +989,9 @@ fn emit_expr(expr: &Expr, plan: &MigrationPlan) -> String {
                 emit_expr(index, plan)
             )
         }
-        Expr::Unsupported { original, .. } => format!("/* unsupported: {} */ ()", original.replace("*/", "")),
+        Expr::Unsupported { original, .. } => {
+            format!("/* unsupported: {} */ ()", original.replace("*/", ""))
+        }
         Expr::Convert { value, .. } => emit_expr(value, plan),
         Expr::Map {
             collection,
@@ -965,7 +1005,12 @@ fn emit_expr(expr: &Expr, plan: &MigrationPlan) -> String {
             emit_expr(body, plan)
         ),
         Expr::Assign { target, value, .. } => {
-            format!("{{ {} = {}; {} }}", rust_ident(target), emit_expr(value, plan), rust_ident(target))
+            format!(
+                "{{ {} = {}; {} }}",
+                rust_ident(target),
+                emit_expr(value, plan),
+                rust_ident(target)
+            )
         }
     }
 }
@@ -1074,4 +1119,3 @@ fn rust_type_ident(name: &str) -> String {
         None => "Anon".into(),
     }
 }
-

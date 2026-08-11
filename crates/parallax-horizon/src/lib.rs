@@ -8,9 +8,9 @@
 
 mod plan;
 
-pub mod pvabi;
 pub mod behavior;
 pub mod ir;
+pub mod pvabi;
 pub mod semantics;
 pub mod vcs;
 
@@ -73,6 +73,9 @@ mod tests {
         let report = analyze_impossible(dir.path(), Some("rust"), None).unwrap();
         assert!(!report.barriers.is_empty());
         assert!(report.estimated_native_pct > 50.0);
-        assert!(report.proposed.iter().any(|p| p.contains("getattr") || p.contains("Dynamic")));
+        assert!(report
+            .proposed
+            .iter()
+            .any(|p| p.contains("getattr") || p.contains("Dynamic")));
     }
 }

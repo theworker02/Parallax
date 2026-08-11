@@ -197,9 +197,9 @@ pub async fn sync_link(link_path: &Path, opts: &SyncOptions) -> Result<SyncRepor
     for rel in ["src/types.rs", "src/service.rs", "src/main.rs"] {
         let src = tmp.join(rel);
         if src.exists()
-            && affected_modules.iter().any(|m| {
-                rel.contains(&module_stem(m)) || rel.ends_with("main.rs")
-            })
+            && affected_modules
+                .iter()
+                .any(|m| rel.contains(&module_stem(m)) || rel.ends_with("main.rs"))
             && !manual_blocks.iter().any(|m| m == rel)
             && !files_touched.iter().any(|f| f == rel)
         {
@@ -260,7 +260,8 @@ pub async fn sync_link(link_path: &Path, opts: &SyncOptions) -> Result<SyncRepor
         verification.push("performance comparison skipped (not configured)".into());
     }
     if opts.deterministic {
-        verification.push("deterministic sandbox: fuel/time mocked where adapters support it".into());
+        verification
+            .push("deterministic sandbox: fuel/time mocked where adapters support it".into());
     }
 
     // Update baseline + ownership only if build succeeded (or verify disabled)
@@ -326,7 +327,8 @@ fn snapshot_src_tree(target: &Path, snap_dir: &Path) -> Result<(), ParallaxError
         for e in fs::read_dir(&src).map_err(crate::io_err)? {
             let e = e.map_err(crate::io_err)?;
             if e.path().extension().and_then(|x| x.to_str()) == Some("rs") {
-                fs::copy(e.path(), snap_dir.join("src").join(e.file_name())).map_err(crate::io_err)?;
+                fs::copy(e.path(), snap_dir.join("src").join(e.file_name()))
+                    .map_err(crate::io_err)?;
             }
         }
     }
@@ -350,7 +352,10 @@ fn restore_src_tree(snap_dir: &Path, target: &Path) -> Result<(), ParallaxError>
     Ok(())
 }
 
-async fn sync_reverse(link: &LinkedProject, _opts: &SyncOptions) -> Result<SyncReport, ParallaxError> {
+async fn sync_reverse(
+    link: &LinkedProject,
+    _opts: &SyncOptions,
+) -> Result<SyncReport, ParallaxError> {
     // Only allow nodes marked ExactYes — currently none auto-qualified; report Unsupported honestly.
     let safe: Vec<_> = link
         .semantic_map
@@ -379,7 +384,10 @@ async fn sync_reverse(link: &LinkedProject, _opts: &SyncOptions) -> Result<SyncR
         manual_blocks: vec![],
         conflicts: vec![],
         verification: vec![],
-        message: format!("reverse sync would touch {} node(s) — not yet fully implemented", safe.len()),
+        message: format!(
+            "reverse sync would touch {} node(s) — not yet fully implemented",
+            safe.len()
+        ),
     })
 }
 

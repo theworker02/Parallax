@@ -6,11 +6,11 @@ mod exploration;
 mod observer;
 mod synthesis;
 
+pub use contracts::{BehaviorObservation, BehavioralContract};
+pub use counterexample::{CegisLoop, Counterexample, RepairStep};
 pub use exploration::{
     BehaviorExplorer, ExplorationPlan, SemanticFuzzCase, SemanticFuzzer, SemanticTriangulator,
     TriangulationReport,
 };
-pub use contracts::{BehaviorObservation, BehavioralContract};
-pub use counterexample::{CegisLoop, Counterexample, RepairStep};
 pub use observer::{DynamicSignal, ObservatoryReport, ProjectObserver};
 pub use synthesis::{BehaviorSynthesizer, SynthesisRequest, SynthesisResult};

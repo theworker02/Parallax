@@ -56,20 +56,65 @@ pub fn build_project_context(root: &Path) -> Result<ProjectContext, ParallaxErro
 
         let fname = entry.file_name().to_string_lossy();
         match fname.as_ref() {
-            "package.json" | "Cargo.toml" | "pyproject.toml" | "requirements.txt"
-            | "go.mod" | "pom.xml" | "build.gradle" | "build.gradle.kts" | "Gemfile"
-            | "composer.json" | "Package.swift" | "pubspec.yaml" | "tsconfig.json"
-            | "Dockerfile" | "docker-compose.yml" | "docker-compose.yaml" | "compose.yaml"
-            | "vercel.json" | "render.yaml" | "Pipfile" | "pnpm-lock.yaml" | "yarn.lock"
-            | "bunfig.toml" | "uv.lock" | "poetry.lock" | "CMakeLists.txt" | "meson.build"
-            | "fly.toml" | "netlify.toml" | "railway.toml" | "railway.json" | "mix.exs"
-            | "serverless.yml" | "serverless.yaml" | "template.yaml" | "samconfig.toml"
-            | ".gitlab-ci.yml" | "rustfmt.toml" | "biome.json" | "biome.jsonc"
-            | "eslint.config.js" | "eslint.config.mjs" | ".eslintrc.json" | ".eslintrc.js"
-            | ".eslintrc.cjs" | "prettier.config.js" | "prettier.config.mjs" | ".prettierrc.json"
-            | "wails.json" | "openapitools.json" | "codegen.yml" | "codegen.ts"
-            | "electron-builder.yml" | "analysis_options.yaml" | "mypy.ini"
-            | ".golangci.yml" | ".golangci.yaml" | ".rubocop.yml" | ".rubocop.yaml"
+            "package.json"
+            | "Cargo.toml"
+            | "pyproject.toml"
+            | "requirements.txt"
+            | "go.mod"
+            | "pom.xml"
+            | "build.gradle"
+            | "build.gradle.kts"
+            | "Gemfile"
+            | "composer.json"
+            | "Package.swift"
+            | "pubspec.yaml"
+            | "tsconfig.json"
+            | "Dockerfile"
+            | "docker-compose.yml"
+            | "docker-compose.yaml"
+            | "compose.yaml"
+            | "vercel.json"
+            | "render.yaml"
+            | "Pipfile"
+            | "pnpm-lock.yaml"
+            | "yarn.lock"
+            | "bunfig.toml"
+            | "uv.lock"
+            | "poetry.lock"
+            | "CMakeLists.txt"
+            | "meson.build"
+            | "fly.toml"
+            | "netlify.toml"
+            | "railway.toml"
+            | "railway.json"
+            | "mix.exs"
+            | "serverless.yml"
+            | "serverless.yaml"
+            | "template.yaml"
+            | "samconfig.toml"
+            | ".gitlab-ci.yml"
+            | "rustfmt.toml"
+            | "biome.json"
+            | "biome.jsonc"
+            | "eslint.config.js"
+            | "eslint.config.mjs"
+            | ".eslintrc.json"
+            | ".eslintrc.js"
+            | ".eslintrc.cjs"
+            | "prettier.config.js"
+            | "prettier.config.mjs"
+            | ".prettierrc.json"
+            | "wails.json"
+            | "openapitools.json"
+            | "codegen.yml"
+            | "codegen.ts"
+            | "electron-builder.yml"
+            | "analysis_options.yaml"
+            | "mypy.ini"
+            | ".golangci.yml"
+            | ".golangci.yaml"
+            | ".rubocop.yml"
+            | ".rubocop.yaml"
             | "project.clj" => {
                 if let Ok(text) = fs::read_to_string(entry.path()) {
                     ctx.manifests.insert(fname.to_string(), text.clone());
@@ -81,8 +126,7 @@ pub fn build_project_context(root: &Path) -> Result<ProjectContext, ParallaxErro
             _ => {}
         }
         if fname.ends_with(".csproj") {
-            ctx.manifests
-                .insert(fname.to_string(), String::new());
+            ctx.manifests.insert(fname.to_string(), String::new());
         }
         if fname == "tauri.conf.json" {
             if let Ok(text) = fs::read_to_string(entry.path()) {
@@ -180,8 +224,18 @@ fn extract_packages(manifest: &str, text: &str, out: &mut Vec<String>) {
         }
         "pyproject.toml" => {
             for needle in [
-                "fastapi", "flask", "django", "sqlalchemy", "pytest", "httpx", "pydantic",
-                "litestar", "sanic", "click", "typer", "uvicorn",
+                "fastapi",
+                "flask",
+                "django",
+                "sqlalchemy",
+                "pytest",
+                "httpx",
+                "pydantic",
+                "litestar",
+                "sanic",
+                "click",
+                "typer",
+                "uvicorn",
             ] {
                 if text.to_ascii_lowercase().contains(needle) {
                     out.push(needle.into());
@@ -215,7 +269,13 @@ fn extract_packages(manifest: &str, text: &str, out: &mut Vec<String>) {
         "go.mod" => {
             for line in text.lines() {
                 let t = line.trim();
-                if t.starts_with("require ") || (!t.is_empty() && !t.starts_with("module ") && !t.starts_with("go ") && !t.starts_with("//") && !t.starts_with(")")) {
+                if t.starts_with("require ")
+                    || (!t.is_empty()
+                        && !t.starts_with("module ")
+                        && !t.starts_with("go ")
+                        && !t.starts_with("//")
+                        && !t.starts_with(")"))
+                {
                     let parts: Vec<_> = t.split_whitespace().collect();
                     if let Some(p) = parts.first() {
                         if p.contains('.') || p.contains('/') {

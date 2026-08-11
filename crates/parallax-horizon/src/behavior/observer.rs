@@ -34,9 +34,7 @@ pub struct ProjectObserver;
 
 impl ProjectObserver {
     pub fn observe(&self, root: &Path) -> Result<ObservatoryReport, String> {
-        let root = root
-            .canonicalize()
-            .map_err(|e| e.to_string())?;
+        let root = root.canonicalize().map_err(|e| e.to_string())?;
         let mut languages = HashMap::new();
         let mut frameworks = Vec::new();
         let mut dynamic = HashMap::<String, Vec<String>>::new();
@@ -47,7 +45,14 @@ impl ProjectObserver {
         let mut package_blob = String::new();
 
         let skip = [
-            "node_modules", "target", ".git", "dist", "build", ".venv", "venv", "__pycache__",
+            "node_modules",
+            "target",
+            ".git",
+            "dist",
+            "build",
+            ".venv",
+            "venv",
+            "__pycache__",
         ];
 
         for entry in WalkDir::new(&root)
@@ -94,7 +99,14 @@ impl ProjectObserver {
             }
             if ext_is(path, &["py", "js", "ts", "tsx", "rb", "java"]) {
                 if let Ok(text) = fs::read_to_string(path) {
-                    scan_source(&text, &rel, &mut dynamic, &mut effects, &mut concurrency, &mut barriers);
+                    scan_source(
+                        &text,
+                        &rel,
+                        &mut dynamic,
+                        &mut effects,
+                        &mut concurrency,
+                        &mut barriers,
+                    );
                 }
             }
         }

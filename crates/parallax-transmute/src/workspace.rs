@@ -15,7 +15,11 @@ pub struct TransmuteWorkspace {
 
 impl TransmuteWorkspace {
     /// Create / refresh workspace from analysis.
-    pub fn create(source_root: &Path, analysis: &ProjectAnalysis, plan: &MigrationPlan) -> Result<Self, ParallaxError> {
+    pub fn create(
+        source_root: &Path,
+        analysis: &ProjectAnalysis,
+        plan: &MigrationPlan,
+    ) -> Result<Self, ParallaxError> {
         let dir = source_root.join(".parallax");
         fs::create_dir_all(dir.join("cache")).map_err(|e| {
             ParallaxError::new(ErrorCode::Io, e.to_string()).with_source("parallax-transmute")
@@ -26,18 +30,19 @@ impl TransmuteWorkspace {
             "framework": analysis.framework,
             "analyzed_at": analysis.analyzed_at,
         });
-        fs::write(dir.join("project.json"), serde_json::to_string_pretty(&project).unwrap())?;
+        fs::write(
+            dir.join("project.json"),
+            serde_json::to_string_pretty(&project).unwrap(),
+        )?;
         fs::write(
             dir.join("graph.json"),
-            serde_json::to_string_pretty(&analysis.graph).map_err(|e| {
-                ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
-            })?,
+            serde_json::to_string_pretty(&analysis.graph)
+                .map_err(|e| ParallaxError::new(ErrorCode::SerializationFailure, e.to_string()))?,
         )?;
         fs::write(
             dir.join("puir.json"),
-            serde_json::to_string_pretty(&analysis.puir).map_err(|e| {
-                ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
-            })?,
+            serde_json::to_string_pretty(&analysis.puir)
+                .map_err(|e| ParallaxError::new(ErrorCode::SerializationFailure, e.to_string()))?,
         )?;
         fs::write(
             dir.join("mappings.json"),
@@ -51,9 +56,8 @@ impl TransmuteWorkspace {
     pub fn write_plan(&self, plan: &MigrationPlan) -> Result<(), ParallaxError> {
         fs::write(
             self.dir.join("plan.json"),
-            serde_json::to_string_pretty(plan).map_err(|e| {
-                ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
-            })?,
+            serde_json::to_string_pretty(plan)
+                .map_err(|e| ParallaxError::new(ErrorCode::SerializationFailure, e.to_string()))?,
         )?;
         Ok(())
     }

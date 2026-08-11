@@ -51,7 +51,14 @@ impl DifferentialRunner {
             name: "cargo_test_suite".into(),
             matched: ok,
             source_output: "see source project tests".into(),
-            target_output: text.chars().rev().take(1500).collect::<String>().chars().rev().collect(),
+            target_output: text
+                .chars()
+                .rev()
+                .take(1500)
+                .collect::<String>()
+                .chars()
+                .rev()
+                .collect(),
             detail: if ok {
                 "target test suite passed (behavioral confidence via migrated tests — not formal proof)"
                     .into()

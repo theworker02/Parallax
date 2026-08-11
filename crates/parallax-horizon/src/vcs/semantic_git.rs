@@ -25,7 +25,8 @@ impl SemanticGit {
             source_location: None,
             commit: None,
             author: None,
-            reason: "Semantic blame requires `.plxmap.json` + git history linkage (scaffold)".into(),
+            reason: "Semantic blame requires `.plxmap.json` + git history linkage (scaffold)"
+                .into(),
             supported: false,
         }
     }

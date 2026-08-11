@@ -18,9 +18,7 @@ pub fn check_puir_schema(version: u32) -> Result<(), ParallaxError> {
     if version > PUIR_SCHEMA_VERSION {
         return Err(ParallaxError::new(
             ErrorCode::InvalidArgument,
-            format!(
-                "PUIR schema {version} is newer than supported {PUIR_SCHEMA_VERSION}"
-            ),
+            format!("PUIR schema {version} is newer than supported {PUIR_SCHEMA_VERSION}"),
         )
         .with_source("parallax-puir")
         .with_operation("check_puir_schema")

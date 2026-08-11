@@ -1,6 +1,6 @@
 //! Project analysis — inventory + frontend → ProjectAnalysis.
 
-use crate::frontend::{run_typescript_frontend, is_project_root};
+use crate::frontend::{is_project_root, run_typescript_frontend};
 use crate::infer::infer_types;
 use chrono::Utc;
 use indexmap::IndexMap;
@@ -101,8 +101,10 @@ pub async fn analyze_project(
     }
 
     let types = infer_types(&puir);
-    puir.metadata
-        .insert("type_inference_count".into(), serde_json::json!(types.reports.len()));
+    puir.metadata.insert(
+        "type_inference_count".into(),
+        serde_json::json!(types.reports.len()),
+    );
 
     Ok(ProjectAnalysis {
         root: root.display().to_string(),
@@ -161,7 +163,11 @@ fn inventory_files(root: &Path) -> Result<Vec<ProjectFile>, ParallaxError> {
                 (role, Some("javascript".into()))
             }
             "py" => (
-                if rel.contains("test") { "test" } else { "source" },
+                if rel.contains("test") {
+                    "test"
+                } else {
+                    "source"
+                },
                 Some("python".into()),
             ),
             "json" | "toml" | "yaml" | "yml" | "env" => ("config", None),

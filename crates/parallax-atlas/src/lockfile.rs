@@ -5,8 +5,8 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::Path;
 
-use crate::ATLAS_FORMAT_VERSION;
 use crate::registry::AdapterRegistry;
+use crate::ATLAS_FORMAT_VERSION;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct LockEntry {

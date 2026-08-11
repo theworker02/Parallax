@@ -1,11 +1,11 @@
 //! Event Horizon CLI — observe / impossible / dissolve / debt / …
 
+use parallax_core::ParallaxError;
 use parallax_horizon::{
     analyze_impossible, blame_line, cherry_pick, detach_status, dissolve_project, explain_barrier,
     measure_debt, optimize_migration, reconstruct_status, PreservationPolicy, ProjectObserver,
     SemanticPatch,
 };
-use parallax_core::ParallaxError;
 use std::path::PathBuf;
 
 fn parse_policy(s: &Option<String>) -> Option<PreservationPolicy> {
@@ -20,8 +20,7 @@ fn parse_policy(s: &Option<String>) -> Option<PreservationPolicy> {
 
 pub fn cmd_observe(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
     let report = ProjectObserver.observe(&path).map_err(|e| {
-        parallax_core::ParallaxError::new(parallax_core::ErrorCode::Io, e)
-            .with_operation("observe")
+        parallax_core::ParallaxError::new(parallax_core::ErrorCode::Io, e).with_operation("observe")
     })?;
     if json {
         println!("{}", serde_json::to_string_pretty(&report).unwrap());
@@ -38,7 +37,12 @@ pub fn cmd_observe(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
     if !report.dynamic_signals.is_empty() {
         println!("\nDynamic behavior:");
         for d in &report.dynamic_signals {
-            println!("  {} ×{}  e.g. {}", d.kind, d.count, d.samples.first().unwrap_or(&String::new()));
+            println!(
+                "  {} ×{}  e.g. {}",
+                d.kind,
+                d.count,
+                d.samples.first().unwrap_or(&String::new())
+            );
         }
     }
     if !report.concurrency.is_empty() {
@@ -78,18 +82,35 @@ pub fn cmd_impossible(
             "[{}] {} @ {}",
             b.id,
             b.kind,
-            if b.location.is_empty() { "?" } else { &b.location }
+            if b.location.is_empty() {
+                "?"
+            } else {
+                &b.location
+            }
         );
-        println!("  strategy: {} ({:.0}%)", b.preferred_strategy.as_str(), b.confidence * 100.0);
+        println!(
+            "  strategy: {} ({:.0}%)",
+            b.preferred_strategy.as_str(),
+            b.confidence * 100.0
+        );
         println!("  {}", b.notes);
     }
     println!("\nProposed strategy:");
     for p in &report.proposed {
         println!("  · {p}");
     }
-    println!("\nEstimated native target:     {:.0}%", report.estimated_native_pct);
-    println!("Expected compatibility layer: {:.0}%", report.expected_compatibility_pct);
-    println!("Polyglot requirement:         {:.0}%", report.polyglot_requirement_pct);
+    println!(
+        "\nEstimated native target:     {:.0}%",
+        report.estimated_native_pct
+    );
+    println!(
+        "Expected compatibility layer: {:.0}%",
+        report.expected_compatibility_pct
+    );
+    println!(
+        "Polyglot requirement:         {:.0}%",
+        report.polyglot_requirement_pct
+    );
     if !report.strategy_options_sample.is_empty() {
         println!("\nStrategy search (sample):");
         for s in &report.strategy_options_sample {
@@ -115,8 +136,14 @@ pub fn cmd_debt(json: bool, path: PathBuf, to: Option<String>) -> Result<(), Par
     }
     println!("Compatibility debt\n");
     println!("Native target semantics.......{:.1}%", debt.native_pct);
-    println!("Generated compatibility.......{:.1}%", debt.compatibility_pct);
-    println!("Polyglot island...............{:.1}%", debt.polyglot_island_pct);
+    println!(
+        "Generated compatibility.......{:.1}%",
+        debt.compatibility_pct
+    );
+    println!(
+        "Polyglot island...............{:.1}%",
+        debt.polyglot_island_pct
+    );
     println!("Manual compatibility..........{:.1}%", debt.manual_pct);
     println!("\nTarget purity: {:.1}%", debt.target_purity);
     println!("({})", debt.notes);
@@ -170,7 +197,10 @@ pub fn cmd_explain_barrier(
     println!("Why direct translation fails:\n  {}", v["why_direct_fails"]);
     println!("Resolution:\n  {}", v["resolution"]);
     println!("Strategy: {}", v["strategy"]);
-    println!("Confidence: {:.1}%", v["confidence"].as_f64().unwrap_or(0.0) * 100.0);
+    println!(
+        "Confidence: {:.1}%",
+        v["confidence"].as_f64().unwrap_or(0.0) * 100.0
+    );
     Ok(())
 }
 

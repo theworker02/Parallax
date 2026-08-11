@@ -177,7 +177,10 @@ impl ContractAnalysis {
             let mark = if f.blocking { "BLOCK" } else { "ok" };
             out.push_str(&format!(
                 "  [{mark}] {:?} via {} = {} — {}\n",
-                f.semantic, f.capability, f.level.glyph(), f.message
+                f.semantic,
+                f.capability,
+                f.level.glyph(),
+                f.message
             ));
         }
         for n in &self.notes {
@@ -220,8 +223,7 @@ pub fn analyze_contract(contract: &MigrationContract) -> ContractAnalysis {
         );
         if contract.source != contract.target {
             notes.push(
-                "Cross-runtime continuation resume is currently Unsupported (EXP gate only)"
-                    .into(),
+                "Cross-runtime continuation resume is currently Unsupported (EXP gate only)".into(),
             );
         }
     }
@@ -248,7 +250,10 @@ pub fn analyze_contract(contract: &MigrationContract) -> ContractAnalysis {
             level,
             blocking,
             message: if blocking {
-                format!("required semantic {:?} not satisfied on {}", semantic, contract.target)
+                format!(
+                    "required semantic {:?} not satisfied on {}",
+                    semantic, contract.target
+                )
             } else {
                 format!("satisfied at {}", level.glyph())
             },
@@ -316,10 +321,7 @@ pub fn analyze_ues_contract(
                 capability: "ues_format".into(),
                 level: CapabilityLevel::No,
                 blocking: true,
-                message: format!(
-                    "UES format {} != expected {}",
-                    ues.format_version, expected
-                ),
+                message: format!("UES format {} != expected {}", ues.format_version, expected),
             });
         }
     }
@@ -356,10 +358,8 @@ mod tests {
 
     #[test]
     fn same_runtime_python_checkpoint_ok() {
-        let c = MigrationContract::continuation_checkpoint(
-            RuntimeKind::Python,
-            RuntimeKind::Python,
-        );
+        let c =
+            MigrationContract::continuation_checkpoint(RuntimeKind::Python, RuntimeKind::Python);
         let a = analyze_contract(&c);
         assert!(a.satisfied, "{}", a.format_human());
     }
@@ -379,8 +379,7 @@ mod tests {
 
     #[test]
     fn wasm_continuation_unsupported() {
-        let c =
-            MigrationContract::continuation_checkpoint(RuntimeKind::Wasm, RuntimeKind::Wasm);
+        let c = MigrationContract::continuation_checkpoint(RuntimeKind::Wasm, RuntimeKind::Wasm);
         let a = analyze_contract(&c);
         assert!(!a.satisfied);
     }

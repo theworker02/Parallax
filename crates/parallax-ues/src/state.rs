@@ -4,7 +4,7 @@ use crate::deterministic::DeterministicContext;
 use crate::frame::UniversalFrame;
 use crate::version::{check_ues_format, UES_FORMAT_VERSION};
 use indexmap::IndexMap;
-use parallax_core::{ExecutionId, ExceptionInfo, RuntimeKind};
+use parallax_core::{ExceptionInfo, ExecutionId, RuntimeKind};
 use parallax_pcir::PcirProgram;
 use serde::{Deserialize, Serialize};
 

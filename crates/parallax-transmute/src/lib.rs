@@ -23,7 +23,7 @@ mod workspace;
 pub use analyze::analyze_project;
 pub use deps::{ChosenDependency, DepEquivalent, DepMapping, DependencyMapDb};
 pub use options::{TargetStyle, TransmuteOptions};
-pub use origin::{lookup_origin, SourceMapFile, SourceMapEntry};
+pub use origin::{lookup_origin, SourceMapEntry, SourceMapFile};
 pub use plan::{MigrationPlan, MigrationPlanner};
 pub use report::{BehavioralComparison, CompatibilityScores, TransmuteReport};
 pub use workspace::TransmuteWorkspace;
@@ -63,14 +63,14 @@ pub fn looks_like_project(path: &Path) -> bool {
 /// Run the full Transmute pipeline.
 pub async fn transmute_project(opts: &Opts) -> Result<TransmuteResult, ParallaxError> {
     let t0 = Instant::now();
-    let root = opts
-        .source
-        .canonicalize()
-        .map_err(|e| {
-            ParallaxError::new(ErrorCode::InvalidArgument, format!("invalid source path: {e}"))
-                .with_source("parallax-transmute")
-                .with_operation("transmute_project")
-        })?;
+    let root = opts.source.canonicalize().map_err(|e| {
+        ParallaxError::new(
+            ErrorCode::InvalidArgument,
+            format!("invalid source path: {e}"),
+        )
+        .with_source("parallax-transmute")
+        .with_operation("transmute_project")
+    })?;
 
     info!(root = %root.display(), "transmute.analyze.begin");
     let analysis = analyze_project(&root, opts.from.clone()).await?;
@@ -79,14 +79,19 @@ pub async fn transmute_project(opts: &Opts) -> Result<TransmuteResult, ParallaxE
     let target = opts.to.clone();
     if !matches!(
         (&analysis.primary_language, &target),
-        (SourceLanguage::TypeScript | SourceLanguage::JavaScript, TargetLanguage::Rust)
-            | (SourceLanguage::Python, TargetLanguage::Rust)
+        (
+            SourceLanguage::TypeScript | SourceLanguage::JavaScript,
+            TargetLanguage::Rust
+        ) | (SourceLanguage::Python, TargetLanguage::Rust)
     ) {
         // Allow planning/dry-run for unsupported pairs with clear Unsupported in report,
         // but only TypeScript/JS → Rust is fully implemented for generation.
         if !matches!(
             (&analysis.primary_language, &target),
-            (SourceLanguage::TypeScript | SourceLanguage::JavaScript, TargetLanguage::Rust)
+            (
+                SourceLanguage::TypeScript | SourceLanguage::JavaScript,
+                TargetLanguage::Rust
+            )
         ) {
             if matches!(target, TargetLanguage::Rust)
                 && matches!(analysis.primary_language, SourceLanguage::Python)
@@ -204,9 +209,8 @@ pub async fn transmute_project(opts: &Opts) -> Result<TransmuteResult, ParallaxE
     let json_report = output_dir.join("parallax-report.json");
     fs::write(
         &json_report,
-        serde_json::to_string_pretty(&report).map_err(|e| {
-            ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
-        })?,
+        serde_json::to_string_pretty(&report)
+            .map_err(|e| ParallaxError::new(ErrorCode::SerializationFailure, e.to_string()))?,
     )?;
     let md_report = output_dir.join("PARALLAX_MIGRATION.md");
     fs::write(&md_report, report.to_markdown())?;
@@ -273,9 +277,12 @@ fn run_cargo_test(dir: &Path) -> Result<TestResults, ParallaxError> {
         .current_dir(dir)
         .output()
         .map_err(|e| {
-            ParallaxError::new(ErrorCode::ExecutionFailure, format!("cargo test failed to start: {e}"))
-                .with_source("parallax-transmute")
-                .with_operation("run_cargo_test")
+            ParallaxError::new(
+                ErrorCode::ExecutionFailure,
+                format!("cargo test failed to start: {e}"),
+            )
+            .with_source("parallax-transmute")
+            .with_operation("run_cargo_test")
         })?;
     let stdout = String::from_utf8_lossy(&out.stdout);
     let stderr = String::from_utf8_lossy(&out.stderr);
@@ -291,7 +298,14 @@ fn run_cargo_test(dir: &Path) -> Result<TestResults, ParallaxError> {
     } else {
         failed = 1;
     }
-    let tail: String = combined.chars().rev().take(2000).collect::<String>().chars().rev().collect();
+    let tail: String = combined
+        .chars()
+        .rev()
+        .take(2000)
+        .collect::<String>()
+        .chars()
+        .rev()
+        .collect();
     Ok(TestResults {
         passed,
         failed,

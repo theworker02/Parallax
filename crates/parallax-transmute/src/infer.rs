@@ -51,7 +51,13 @@ fn collect_item(item: &PuirItem, out: &mut IndexMap<String, Vec<TypeEvidence>>) 
                 collect_stmt(s, out);
             }
         }
-        PuirItem::Const { name, ty, value, span, .. } => {
+        PuirItem::Const {
+            name,
+            ty,
+            value,
+            span,
+            ..
+        } => {
             if !matches!(ty, PuirType::Unknown) {
                 push(
                     out,
@@ -101,7 +107,12 @@ fn collect_stmt(stmt: &Stmt, out: &mut IndexMap<String, Vec<TypeEvidence>>) {
             collect_expr(v, out);
         }
         Stmt::Declare { .. } => {}
-        Stmt::Assign { target, value, span, .. } => {
+        Stmt::Assign {
+            target,
+            value,
+            span,
+            ..
+        } => {
             if let Some(t) = literal_type(value) {
                 push(
                     out,
@@ -156,9 +167,18 @@ fn collect_expr(expr: &Expr, out: &mut IndexMap<String, Vec<TypeEvidence>>) {
             collect_expr(left, out);
             collect_expr(right, out);
         }
-        Expr::Index { collection, index, .. } => {
+        Expr::Index {
+            collection, index, ..
+        } => {
             if let Expr::Name { name, .. } = index.as_ref() {
-                push(out, name, "used_as_index", "integer-like".into(), None, None);
+                push(
+                    out,
+                    name,
+                    "used_as_index",
+                    "integer-like".into(),
+                    None,
+                    None,
+                );
             }
             collect_expr(collection, out);
             collect_expr(index, out);
@@ -217,19 +237,23 @@ fn push(
     file: Option<String>,
     line: Option<u32>,
 ) {
-    out.entry(symbol.to_string()).or_default().push(TypeEvidence {
-        symbol: symbol.to_string(),
-        kind: kind.into(),
-        detail,
-        file,
-        line,
-    });
+    out.entry(symbol.to_string())
+        .or_default()
+        .push(TypeEvidence {
+            symbol: symbol.to_string(),
+            kind: kind.into(),
+            detail,
+            file,
+            line,
+        });
 }
 
 fn conclude(ev: &[TypeEvidence]) -> (PuirType, Confidence, Vec<PuirType>, bool) {
     let mut votes: IndexMap<String, u32> = IndexMap::new();
     for e in ev {
-        let key = if e.detail.contains("Int") || e.kind == "used_as_index" || e.kind == "numeric_operator"
+        let key = if e.detail.contains("Int")
+            || e.kind == "used_as_index"
+            || e.kind == "numeric_operator"
         {
             if e.detail.contains("Float") {
                 "float"
@@ -245,10 +269,23 @@ fn conclude(ev: &[TypeEvidence]) -> (PuirType, Confidence, Vec<PuirType>, bool) 
         };
         *votes.entry(key.into()).or_default() += 1;
     }
-    let best = votes.iter().max_by_key(|(_, c)| *c).map(|(k, _)| k.as_str());
+    let best = votes
+        .iter()
+        .max_by_key(|(_, c)| *c)
+        .map(|(k, _)| k.as_str());
     match best {
-        Some("int") => (PuirType::i64(), Confidence::High, vec![PuirType::f64()], false),
-        Some("float") => (PuirType::f64(), Confidence::High, vec![PuirType::i64()], false),
+        Some("int") => (
+            PuirType::i64(),
+            Confidence::High,
+            vec![PuirType::f64()],
+            false,
+        ),
+        Some("float") => (
+            PuirType::f64(),
+            Confidence::High,
+            vec![PuirType::i64()],
+            false,
+        ),
         Some("string") => (PuirType::String, Confidence::High, Vec::new(), false),
         Some("bool") => (PuirType::Bool, Confidence::High, Vec::new(), false),
         _ => (

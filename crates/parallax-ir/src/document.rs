@@ -69,9 +69,8 @@ impl PirDocument {
 
     /// Validate schema and internal consistency.
     pub fn validate(&self) -> Result<()> {
-        check_pir_schema(self.schema).map_err(|e| {
-            e.with_source("parallax-ir").with_operation("validate")
-        })?;
+        check_pir_schema(self.schema)
+            .map_err(|e| e.with_source("parallax-ir").with_operation("validate"))?;
         for root in &self.roots {
             if !self.objects.contains_key(&root.id.raw()) {
                 return Err(ParallaxError::new(

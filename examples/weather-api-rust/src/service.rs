@@ -1,6 +1,5 @@
 //! Migrated from `src/service.ts` (semantic service lowering)
 use crate::types::*;
-use serde::{Deserialize, Serialize};
 
 fn cities_lookup(key: &str) -> Option<Weather> {
     match key {

@@ -5,7 +5,7 @@ use crate::identity::SemanticId;
 use crate::ownership::{ManualRegion, RegionOwnership};
 use crate::policy::SyncPolicy;
 use chrono::{DateTime, Utc};
-use parallax_core::{ErrorCode, MIRROR_LINK_FORMAT_VERSION, ParallaxError, Remediation};
+use parallax_core::{ErrorCode, ParallaxError, Remediation, MIRROR_LINK_FORMAT_VERSION};
 use parallax_project::{SourceLanguage, TargetLanguage};
 use parallax_puir::PuirProgram;
 use parallax_transmute::{analyze_project, looks_like_project};
@@ -109,7 +109,9 @@ impl LinkedProject {
             {
                 // heuristic: types often PascalCase last segment
                 if analysis.puir.modules.values().any(|m| {
-                    m.items.iter().any(|i| matches!(i, parallax_puir::PuirItem::Type(t) if qn.ends_with(&t.name)))
+                    m.items.iter().any(
+                        |i| matches!(i, parallax_puir::PuirItem::Type(t) if qn.ends_with(&t.name)),
+                    )
                 }) {
                     "type"
                 } else {
@@ -201,9 +203,8 @@ impl LinkedProject {
     }
 
     pub fn save(&self) -> Result<(), ParallaxError> {
-        let mut value = serde_json::to_value(self).map_err(|e| {
-            ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
-        })?;
+        let mut value = serde_json::to_value(self)
+            .map_err(|e| ParallaxError::new(ErrorCode::SerializationFailure, e.to_string()))?;
         if let Some(obj) = value.as_object_mut() {
             obj.remove("link_dir");
         }
@@ -245,9 +246,8 @@ impl LinkedProject {
     pub fn baseline_puir(&self) -> Result<PuirProgram, ParallaxError> {
         let text = fs::read_to_string(self.link_dir.join("baselines/source-puir.json"))
             .map_err(crate::io_err)?;
-        serde_json::from_str(&text).map_err(|e| {
-            ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
-        })
+        serde_json::from_str(&text)
+            .map_err(|e| ParallaxError::new(ErrorCode::SerializationFailure, e.to_string()))
     }
 
     pub fn write_baseline_puir(&self, puir: &PuirProgram) -> Result<(), ParallaxError> {
@@ -288,9 +288,7 @@ fn find_link_dir(path: &Path) -> Result<PathBuf, ParallaxError> {
         format!("no {LINK_DIR}/link.json near {}", path.display()),
     )
     .with_source("parallax-mirror")
-    .remediate(Remediation::new(
-        "Run: plx link <source> <target>",
-    )))
+    .remediate(Remediation::new("Run: plx link <source> <target>")))
 }
 
 fn infer_target_lang(target: &Path) -> TargetLanguage {
@@ -328,10 +326,7 @@ fn list_generated(target: &Path) -> Vec<String> {
     if let Ok(rd) = fs::read_dir(src) {
         for e in rd.flatten() {
             if e.path().extension().and_then(|x| x.to_str()) == Some("rs") {
-                out.push(format!(
-                    "src/{}",
-                    e.file_name().to_string_lossy()
-                ));
+                out.push(format!("src/{}", e.file_name().to_string_lossy()));
             }
         }
     }
@@ -349,9 +344,8 @@ fn fingerprint_puir(puir: &PuirProgram) -> String {
 }
 
 fn write_bin_json(path: &Path, value: &impl Serialize) -> Result<(), ParallaxError> {
-    let bytes = serde_json::to_vec(value).map_err(|e| {
-        ParallaxError::new(ErrorCode::SerializationFailure, e.to_string())
-    })?;
+    let bytes = serde_json::to_vec(value)
+        .map_err(|e| ParallaxError::new(ErrorCode::SerializationFailure, e.to_string()))?;
     fs::write(path, bytes).map_err(crate::io_err)
 }
 

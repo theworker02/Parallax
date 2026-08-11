@@ -89,8 +89,7 @@ fn register_languages(reg: &mut AdapterRegistry) {
             "Go Source Adapter",
             &["go"],
             AdapterMaturity::Experimental,
-            AdapterCapabilities::scaffold()
-                .with_flag("parsing", CapabilitySupport::Partial),
+            AdapterCapabilities::scaffold().with_flag("parsing", CapabilitySupport::Partial),
             detect_go,
         ),
         (
@@ -122,8 +121,7 @@ fn register_languages(reg: &mut AdapterRegistry) {
             "Ruby Source Adapter",
             &["ruby"],
             AdapterMaturity::Experimental,
-            AdapterCapabilities::scaffold()
-                .with_flag("parsing", CapabilitySupport::Partial),
+            AdapterCapabilities::scaffold().with_flag("parsing", CapabilitySupport::Partial),
             detect_ruby,
         ),
         (
@@ -175,7 +173,8 @@ fn register_languages(reg: &mut AdapterRegistry) {
             detect_lua,
         ),
     ] {
-        let mut m = AdapterManifest::builtin(id, name, AdapterKind::SourceLanguage, maturity, langs);
+        let mut m =
+            AdapterManifest::builtin(id, name, AdapterKind::SourceLanguage, maturity, langs);
         m.owns = vec![
             "ast".into(),
             "symbols".into(),
@@ -213,8 +212,7 @@ fn register_languages(reg: &mut AdapterRegistry) {
             "Python Target Adapter",
             &["python"],
             AdapterMaturity::Experimental,
-            AdapterCapabilities::scaffold()
-                .with_flag("codegen", CapabilitySupport::Partial),
+            AdapterCapabilities::scaffold().with_flag("codegen", CapabilitySupport::Partial),
             detect_python_target,
         ),
         (
@@ -274,7 +272,8 @@ fn register_languages(reg: &mut AdapterRegistry) {
             detect_dart_target,
         ),
     ] {
-        let mut m = AdapterManifest::builtin(id, name, AdapterKind::TargetLanguage, maturity, langs);
+        let mut m =
+            AdapterManifest::builtin(id, name, AdapterKind::TargetLanguage, maturity, langs);
         m.owns = vec![
             "syntax_emission".into(),
             "module_layout".into(),
@@ -318,22 +317,100 @@ fn register_languages(reg: &mut AdapterRegistry) {
 
 fn register_frameworks(reg: &mut AdapterRegistry) {
     #[allow(clippy::type_complexity)]
-    type Fw = (&'static str, &'static str, &'static [&'static str], i32, fn(&ProjectContext) -> DetectionResult);
+    type Fw = (
+        &'static str,
+        &'static str,
+        &'static [&'static str],
+        i32,
+        fn(&ProjectContext) -> DetectionResult,
+    );
     let frameworks: &[Fw] = &[
-        ("parallax.framework.express", "Express", &["typescript", "javascript"], 85, detect_express),
-        ("parallax.framework.fastify", "Fastify", &["typescript", "javascript"], 86, detect_fastify),
-        ("parallax.framework.nestjs", "NestJS", &["typescript"], 95, detect_nestjs),
-        ("parallax.framework.fastapi", "FastAPI", &["python"], 90, detect_fastapi),
-        ("parallax.framework.flask", "Flask", &["python"], 80, detect_flask),
-        ("parallax.framework.django", "Django", &["python"], 88, detect_django),
-        ("parallax.framework.axum", "Axum", &["rust"], 90, detect_axum),
-        ("parallax.framework.actix", "Actix Web", &["rust"], 85, detect_actix),
+        (
+            "parallax.framework.express",
+            "Express",
+            &["typescript", "javascript"],
+            85,
+            detect_express,
+        ),
+        (
+            "parallax.framework.fastify",
+            "Fastify",
+            &["typescript", "javascript"],
+            86,
+            detect_fastify,
+        ),
+        (
+            "parallax.framework.nestjs",
+            "NestJS",
+            &["typescript"],
+            95,
+            detect_nestjs,
+        ),
+        (
+            "parallax.framework.fastapi",
+            "FastAPI",
+            &["python"],
+            90,
+            detect_fastapi,
+        ),
+        (
+            "parallax.framework.flask",
+            "Flask",
+            &["python"],
+            80,
+            detect_flask,
+        ),
+        (
+            "parallax.framework.django",
+            "Django",
+            &["python"],
+            88,
+            detect_django,
+        ),
+        (
+            "parallax.framework.axum",
+            "Axum",
+            &["rust"],
+            90,
+            detect_axum,
+        ),
+        (
+            "parallax.framework.actix",
+            "Actix Web",
+            &["rust"],
+            85,
+            detect_actix,
+        ),
         ("parallax.framework.gin", "Gin", &["go"], 80, detect_gin),
         ("parallax.framework.chi", "Chi", &["go"], 82, detect_chi),
-        ("parallax.framework.spring", "Spring Boot", &["java", "kotlin"], 90, detect_spring),
-        ("parallax.framework.aspnet", "ASP.NET", &["csharp"], 90, detect_aspnet),
-        ("parallax.framework.rails", "Ruby on Rails", &["ruby"], 88, detect_rails),
-        ("parallax.framework.laravel", "Laravel", &["php"], 85, detect_laravel),
+        (
+            "parallax.framework.spring",
+            "Spring Boot",
+            &["java", "kotlin"],
+            90,
+            detect_spring,
+        ),
+        (
+            "parallax.framework.aspnet",
+            "ASP.NET",
+            &["csharp"],
+            90,
+            detect_aspnet,
+        ),
+        (
+            "parallax.framework.rails",
+            "Ruby on Rails",
+            &["ruby"],
+            88,
+            detect_rails,
+        ),
+        (
+            "parallax.framework.laravel",
+            "Laravel",
+            &["php"],
+            85,
+            detect_laravel,
+        ),
         (
             "parallax.framework.nextjs",
             "Next.js",
@@ -341,23 +418,113 @@ fn register_frameworks(reg: &mut AdapterRegistry) {
             92,
             detect_nextjs,
         ),
-        ("parallax.framework.hono", "Hono", &["typescript", "javascript"], 84, detect_hono),
-        ("parallax.framework.koa", "Koa", &["typescript", "javascript"], 83, detect_koa),
-        ("parallax.framework.fiber", "Fiber", &["go"], 88, detect_fiber),
+        (
+            "parallax.framework.hono",
+            "Hono",
+            &["typescript", "javascript"],
+            84,
+            detect_hono,
+        ),
+        (
+            "parallax.framework.koa",
+            "Koa",
+            &["typescript", "javascript"],
+            83,
+            detect_koa,
+        ),
+        (
+            "parallax.framework.fiber",
+            "Fiber",
+            &["go"],
+            88,
+            detect_fiber,
+        ),
         ("parallax.framework.echo", "Echo", &["go"], 86, detect_echo),
-        ("parallax.framework.rocket", "Rocket", &["rust"], 88, detect_rocket),
-        ("parallax.framework.ktor", "Ktor", &["kotlin"], 87, detect_ktor),
-        ("parallax.framework.vapor", "Vapor", &["swift"], 85, detect_vapor),
-        ("parallax.framework.litestar", "Litestar", &["python"], 86, detect_litestar),
-        ("parallax.framework.sanic", "Sanic", &["python"], 82, detect_sanic),
-        ("parallax.framework.phoenix", "Phoenix", &["elixir"], 90, detect_phoenix),
-        ("parallax.framework.sinatra", "Sinatra", &["ruby"], 80, detect_sinatra),
-        ("parallax.framework.quarkus", "Quarkus", &["java", "kotlin"], 88, detect_quarkus),
-        ("parallax.framework.micronaut", "Micronaut", &["java", "kotlin"], 86, detect_micronaut),
-        ("parallax.framework.symfony", "Symfony", &["php"], 87, detect_symfony),
+        (
+            "parallax.framework.rocket",
+            "Rocket",
+            &["rust"],
+            88,
+            detect_rocket,
+        ),
+        (
+            "parallax.framework.ktor",
+            "Ktor",
+            &["kotlin"],
+            87,
+            detect_ktor,
+        ),
+        (
+            "parallax.framework.vapor",
+            "Vapor",
+            &["swift"],
+            85,
+            detect_vapor,
+        ),
+        (
+            "parallax.framework.litestar",
+            "Litestar",
+            &["python"],
+            86,
+            detect_litestar,
+        ),
+        (
+            "parallax.framework.sanic",
+            "Sanic",
+            &["python"],
+            82,
+            detect_sanic,
+        ),
+        (
+            "parallax.framework.phoenix",
+            "Phoenix",
+            &["elixir"],
+            90,
+            detect_phoenix,
+        ),
+        (
+            "parallax.framework.sinatra",
+            "Sinatra",
+            &["ruby"],
+            80,
+            detect_sinatra,
+        ),
+        (
+            "parallax.framework.quarkus",
+            "Quarkus",
+            &["java", "kotlin"],
+            88,
+            detect_quarkus,
+        ),
+        (
+            "parallax.framework.micronaut",
+            "Micronaut",
+            &["java", "kotlin"],
+            86,
+            detect_micronaut,
+        ),
+        (
+            "parallax.framework.symfony",
+            "Symfony",
+            &["php"],
+            87,
+            detect_symfony,
+        ),
         ("parallax.framework.slim", "Slim", &["php"], 78, detect_slim),
-        ("parallax.framework.beego", "Beego", &["go"], 79, detect_beego),
-        ("parallax.framework.buffalo", "Buffalo", &["go"], 77, detect_buffalo),
+        (
+            "parallax.framework.beego",
+            "Beego",
+            &["go"],
+            79,
+            detect_beego,
+        ),
+        (
+            "parallax.framework.buffalo",
+            "Buffalo",
+            &["go"],
+            77,
+            detect_buffalo,
+        ),
     ];
     for (id, name, langs, prio, detect) in frameworks {
         let mut m = AdapterManifest::builtin(
@@ -391,8 +558,7 @@ fn register_frameworks(reg: &mut AdapterRegistry) {
     add(
         reg,
         react,
-        AdapterCapabilities::scaffold()
-            .with_flag("components", CapabilitySupport::Partial),
+        AdapterCapabilities::scaffold().with_flag("components", CapabilitySupport::Partial),
         detect_react,
     );
 
@@ -403,9 +569,19 @@ fn register_frameworks(reg: &mut AdapterRegistry) {
             "vue",
             detect_vue as fn(&ProjectContext) -> DetectionResult,
         ),
-        ("parallax.frontend.svelte", "Svelte", "svelte", detect_svelte),
+        (
+            "parallax.frontend.svelte",
+            "Svelte",
+            "svelte",
+            detect_svelte,
+        ),
         ("parallax.frontend.solid", "Solid", "solid-js", detect_solid),
-        ("parallax.frontend.angular", "Angular", "@angular/core", detect_angular),
+        (
+            "parallax.frontend.angular",
+            "Angular",
+            "@angular/core",
+            detect_angular,
+        ),
     ] {
         let mut m = AdapterManifest::builtin(
             id,
@@ -420,8 +596,7 @@ fn register_frameworks(reg: &mut AdapterRegistry) {
         add(
             reg,
             m,
-            AdapterCapabilities::scaffold()
-                .with_flag("components", CapabilitySupport::Partial),
+            AdapterCapabilities::scaffold().with_flag("components", CapabilitySupport::Partial),
             detect,
         );
     }
@@ -456,30 +631,15 @@ fn register_build(reg: &mut AdapterRegistry) {
             &["javascript", "typescript"][..],
             detect_npm as fn(&ProjectContext) -> DetectionResult,
         ),
-        (
-            "parallax.build.cargo",
-            "Cargo",
-            &["rust"],
-            detect_cargo,
-        ),
+        ("parallax.build.cargo", "Cargo", &["rust"], detect_cargo),
         (
             "parallax.build.pip",
             "pip / pyproject",
             &["python"],
             detect_pip,
         ),
-        (
-            "parallax.build.gomod",
-            "Go Modules",
-            &["go"],
-            detect_gomod,
-        ),
-        (
-            "parallax.build.maven",
-            "Maven",
-            &["java"],
-            detect_maven,
-        ),
+        ("parallax.build.gomod", "Go Modules", &["go"], detect_gomod),
+        ("parallax.build.maven", "Maven", &["java"], detect_maven),
         (
             "parallax.build.gradle",
             "Gradle",
@@ -510,23 +670,49 @@ fn register_build(reg: &mut AdapterRegistry) {
             &["swift"],
             detect_swiftpm,
         ),
+        ("parallax.build.pub", "Dart pub", &["dart"], detect_pubspec),
         (
-            "parallax.build.pub",
-            "Dart pub",
-            &["dart"],
-            detect_pubspec,
+            "parallax.build.pnpm",
+            "pnpm",
+            &["javascript", "typescript"],
+            detect_pnpm,
         ),
-        ("parallax.build.pnpm", "pnpm", &["javascript", "typescript"], detect_pnpm),
-        ("parallax.build.yarn", "Yarn", &["javascript", "typescript"], detect_yarn),
-        ("parallax.build.bun", "Bun", &["javascript", "typescript"], detect_bun),
+        (
+            "parallax.build.yarn",
+            "Yarn",
+            &["javascript", "typescript"],
+            detect_yarn,
+        ),
+        (
+            "parallax.build.bun",
+            "Bun",
+            &["javascript", "typescript"],
+            detect_bun,
+        ),
         ("parallax.build.uv", "uv", &["python"], detect_uv),
-        ("parallax.build.poetry", "Poetry", &["python"], detect_poetry),
+        (
+            "parallax.build.poetry",
+            "Poetry",
+            &["python"],
+            detect_poetry,
+        ),
         ("parallax.build.cmake", "CMake", &["c", "cpp"], detect_cmake),
         ("parallax.build.meson", "Meson", &["c", "cpp"], detect_meson),
         ("parallax.build.sbt", "sbt", &["scala"], detect_sbt),
-        ("parallax.build.lein", "Leiningen", &["clojure"], detect_lein),
+        (
+            "parallax.build.lein",
+            "Leiningen",
+            &["clojure"],
+            detect_lein,
+        ),
     ] {
-        let m = AdapterManifest::builtin(id, name, AdapterKind::BuildSystem, AdapterMaturity::Beta, langs);
+        let m = AdapterManifest::builtin(
+            id,
+            name,
+            AdapterKind::BuildSystem,
+            AdapterMaturity::Beta,
+            langs,
+        );
         add(reg, m, AdapterCapabilities::scaffold(), detect);
     }
 }
@@ -545,49 +731,29 @@ fn register_tests(reg: &mut AdapterRegistry) {
             &["javascript", "typescript"],
             detect_vitest,
         ),
-        (
-            "parallax.test.pytest",
-            "pytest",
-            &["python"],
-            detect_pytest,
-        ),
+        ("parallax.test.pytest", "pytest", &["python"], detect_pytest),
         (
             "parallax.test.cargo",
             "Rust libtest",
             &["rust"],
             detect_cargo_test,
         ),
-        (
-            "parallax.test.go",
-            "Go testing",
-            &["go"],
-            detect_go_test,
-        ),
+        ("parallax.test.go", "Go testing", &["go"], detect_go_test),
         (
             "parallax.test.junit",
             "JUnit",
             &["java", "kotlin"],
             detect_junit,
         ),
+        ("parallax.test.xunit", "xUnit", &["csharp"], detect_xunit),
+        ("parallax.test.rspec", "RSpec", &["ruby"], detect_rspec),
+        ("parallax.test.phpunit", "PHPUnit", &["php"], detect_phpunit),
         (
-            "parallax.test.xunit",
-            "xUnit",
-            &["csharp"],
-            detect_xunit,
+            "parallax.test.mocha",
+            "Mocha",
+            &["javascript", "typescript"],
+            detect_mocha,
         ),
-        (
-            "parallax.test.rspec",
-            "RSpec",
-            &["ruby"],
-            detect_rspec,
-        ),
-        (
-            "parallax.test.phpunit",
-            "PHPUnit",
-            &["php"],
-            detect_phpunit,
-        ),
-        ("parallax.test.mocha", "Mocha", &["javascript", "typescript"], detect_mocha),
         (
             "parallax.test.criterion",
             "Criterion",
@@ -597,8 +763,18 @@ fn register_tests(reg: &mut AdapterRegistry) {
         ("parallax.test.kotest", "Kotest", &["kotlin"], detect_kotest),
         ("parallax.test.nunit", "NUnit", &["csharp"], detect_nunit),
         ("parallax.test.xctest", "XCTest", &["swift"], detect_xctest),
-        ("parallax.test.dart", "Dart test", &["dart"], detect_dart_test),
-        ("parallax.test.unittest", "unittest", &["python"], detect_unittest),
+        (
+            "parallax.test.dart",
+            "Dart test",
+            &["dart"],
+            detect_dart_test,
+        ),
+        (
+            "parallax.test.unittest",
+            "unittest",
+            &["python"],
+            detect_unittest,
+        ),
     ] {
         let mut m = AdapterManifest::builtin(
             id,
@@ -662,12 +838,7 @@ fn register_data(reg: &mut AdapterRegistry) {
             AdapterKind::Orm,
             detect_diesel,
         ),
-        (
-            "parallax.orm.sqlx",
-            "SQLx",
-            AdapterKind::Orm,
-            detect_sqlx,
-        ),
+        ("parallax.orm.sqlx", "SQLx", AdapterKind::Orm, detect_sqlx),
         (
             "parallax.orm.hibernate",
             "Hibernate",
@@ -686,10 +857,25 @@ fn register_data(reg: &mut AdapterRegistry) {
             AdapterKind::Orm,
             detect_activerecord,
         ),
-        ("parallax.orm.drizzle", "Drizzle", AdapterKind::Orm, detect_drizzle),
-        ("parallax.orm.seaorm", "SeaORM", AdapterKind::Orm, detect_seaorm),
+        (
+            "parallax.orm.drizzle",
+            "Drizzle",
+            AdapterKind::Orm,
+            detect_drizzle,
+        ),
+        (
+            "parallax.orm.seaorm",
+            "SeaORM",
+            AdapterKind::Orm,
+            detect_seaorm,
+        ),
         ("parallax.orm.gorm", "GORM", AdapterKind::Orm, detect_gorm),
-        ("parallax.orm.eloquent", "Eloquent", AdapterKind::Orm, detect_eloquent),
+        (
+            "parallax.orm.eloquent",
+            "Eloquent",
+            AdapterKind::Orm,
+            detect_eloquent,
+        ),
         (
             "parallax.db.dynamodb",
             "DynamoDB",
@@ -706,11 +892,7 @@ fn register_data(reg: &mut AdapterRegistry) {
         );
         m.ecosystems = vec![name.to_lowercase()];
         m.owns = if matches!(kind, AdapterKind::Orm) {
-            vec![
-                "models".into(),
-                "queries".into(),
-                "migrations".into(),
-            ]
+            vec!["models".into(), "queries".into(), "migrations".into()]
         } else {
             vec!["connection".into(), "transactions".into()]
         };
@@ -725,41 +907,25 @@ fn register_deploy(reg: &mut AdapterRegistry) {
             "Docker",
             detect_docker as fn(&ProjectContext) -> DetectionResult,
         ),
-        (
-            "parallax.deploy.compose",
-            "Docker Compose",
-            detect_compose,
-        ),
-        (
-            "parallax.deploy.k8s",
-            "Kubernetes",
-            detect_k8s,
-        ),
+        ("parallax.deploy.compose", "Docker Compose", detect_compose),
+        ("parallax.deploy.k8s", "Kubernetes", detect_k8s),
         (
             "parallax.deploy.github_actions",
             "GitHub Actions",
             detect_gha,
         ),
-        (
-            "parallax.deploy.vercel",
-            "Vercel",
-            detect_vercel,
-        ),
-        (
-            "parallax.deploy.render",
-            "Render",
-            detect_render,
-        ),
+        ("parallax.deploy.vercel", "Vercel", detect_vercel),
+        ("parallax.deploy.render", "Render", detect_render),
         ("parallax.deploy.fly", "Fly.io", detect_fly),
         ("parallax.deploy.railway", "Railway", detect_railway),
         ("parallax.deploy.netlify", "Netlify", detect_netlify),
-        (
-            "parallax.deploy.gitlab_ci",
-            "GitLab CI",
-            detect_gitlab_ci,
-        ),
+        ("parallax.deploy.gitlab_ci", "GitLab CI", detect_gitlab_ci),
         ("parallax.deploy.circleci", "CircleCI", detect_circleci),
-        ("parallax.deploy.aws_lambda", "AWS Lambda", detect_aws_lambda),
+        (
+            "parallax.deploy.aws_lambda",
+            "AWS Lambda",
+            detect_aws_lambda,
+        ),
     ] {
         let m = AdapterManifest::builtin(
             id,
@@ -837,7 +1003,11 @@ fn register_serialization(reg: &mut AdapterRegistry) {
             },
             langs,
         );
-        m.owns = vec!["schemas".into(), "validation".into(), "serialization".into()];
+        m.owns = vec![
+            "schemas".into(),
+            "validation".into(),
+            "serialization".into(),
+        ];
         add(reg, m, AdapterCapabilities::scaffold(), detect);
     }
 }
@@ -874,12 +1044,7 @@ fn register_formatters(reg: &mut AdapterRegistry) {
             &["python"],
             detect_ruff_format,
         ),
-        (
-            "parallax.formatter.gofmt",
-            "gofmt",
-            &["go"],
-            detect_gofmt,
-        ),
+        ("parallax.formatter.gofmt", "gofmt", &["go"], detect_gofmt),
         (
             "parallax.formatter.dart",
             "dart format",
@@ -907,12 +1072,7 @@ fn register_linters(reg: &mut AdapterRegistry) {
             &["javascript", "typescript"][..],
             detect_eslint as fn(&ProjectContext) -> DetectionResult,
         ),
-        (
-            "parallax.linter.clippy",
-            "Clippy",
-            &["rust"],
-            detect_clippy,
-        ),
+        ("parallax.linter.clippy", "Clippy", &["rust"], detect_clippy),
         (
             "parallax.linter.ruff",
             "Ruff lint",
@@ -937,12 +1097,7 @@ fn register_linters(reg: &mut AdapterRegistry) {
             &["ruby"],
             detect_rubocop,
         ),
-        (
-            "parallax.linter.mypy",
-            "mypy",
-            &["python"],
-            detect_mypy,
-        ),
+        ("parallax.linter.mypy", "mypy", &["python"], detect_mypy),
     ] {
         let mut m = AdapterManifest::builtin(
             id,
@@ -1027,11 +1182,7 @@ fn register_desktop_gui(reg: &mut AdapterRegistry) {
             AdapterMaturity::Experimental,
             langs,
         );
-        m.owns = vec![
-            "native_shell".into(),
-            "webview".into(),
-            "ipc".into(),
-        ];
+        m.owns = vec!["native_shell".into(), "webview".into(), "ipc".into()];
         add(reg, m, AdapterCapabilities::scaffold(), detect);
     }
 }
@@ -1072,12 +1223,9 @@ fn register_pairs(reg: &mut AdapterRegistry) {
             langs,
         );
         m.priority = 5;
-        add(
-            reg,
-            m,
-            AdapterCapabilities::scaffold(),
-            |_| DetectionResult::no_match(),
-        );
+        add(reg, m, AdapterCapabilities::scaffold(), |_| {
+            DetectionResult::no_match()
+        });
     }
 }
 
@@ -1104,7 +1252,9 @@ macro_rules! detect_pkg {
 }
 
 fn detect_typescript(ctx: &ProjectContext) -> DetectionResult {
-    if ctx.has_file_suffix(".ts") || ctx.has_file_suffix(".tsx") || ctx.has_manifest("tsconfig.json")
+    if ctx.has_file_suffix(".ts")
+        || ctx.has_file_suffix(".tsx")
+        || ctx.has_manifest("tsconfig.json")
     {
         DetectionResult::matched(DetectionConfidence::High)
             .evidence("language", "typescript")
@@ -1204,7 +1354,12 @@ fn detect_node(ctx: &ProjectContext) -> DetectionResult {
 }
 
 fn detect_rust_target(ctx: &ProjectContext) -> DetectionResult {
-    if ctx.has_manifest("Cargo.toml") || ctx.hints.get("target").map(|t| t == "rust").unwrap_or(false)
+    if ctx.has_manifest("Cargo.toml")
+        || ctx
+            .hints
+            .get("target")
+            .map(|t| t == "rust")
+            .unwrap_or(false)
     {
         DetectionResult::matched(DetectionConfidence::Medium).evidence("target", "rust")
     } else if ctx.hints.get("to").map(|t| t == "rust").unwrap_or(false) {
@@ -1305,7 +1460,9 @@ fn detect_aspnet(ctx: &ProjectContext) -> DetectionResult {
     }
 }
 fn detect_rails(ctx: &ProjectContext) -> DetectionResult {
-    if ctx.has_manifest("Gemfile") && (ctx.package_contains("rails") || ctx.has_file_suffix("config/routes.rb")) {
+    if ctx.has_manifest("Gemfile")
+        && (ctx.package_contains("rails") || ctx.has_file_suffix("config/routes.rb"))
+    {
         DetectionResult::matched(DetectionConfidence::High).evidence("framework", "rails")
     } else {
         DetectionResult::no_match()
@@ -1478,7 +1635,8 @@ fn detect_pubspec(ctx: &ProjectContext) -> DetectionResult {
 }
 fn detect_pnpm(ctx: &ProjectContext) -> DetectionResult {
     if ctx.has_manifest("pnpm-lock.yaml")
-        || ctx.manifests
+        || ctx
+            .manifests
             .get("package.json")
             .map(|t| t.contains("pnpm"))
             .unwrap_or(false)
@@ -1530,7 +1688,8 @@ fn detect_poetry(ctx: &ProjectContext) -> DetectionResult {
 }
 fn detect_cmake(ctx: &ProjectContext) -> DetectionResult {
     if ctx.has_manifest("CMakeLists.txt") {
-        DetectionResult::matched(DetectionConfidence::Certain).evidence("manifest", "CMakeLists.txt")
+        DetectionResult::matched(DetectionConfidence::Certain)
+            .evidence("manifest", "CMakeLists.txt")
     } else {
         DetectionResult::no_match()
     }
@@ -1550,7 +1709,12 @@ fn detect_vitest(ctx: &ProjectContext) -> DetectionResult {
     detect_pkg!(ctx, "vitest", DetectionConfidence::High)
 }
 fn detect_pytest(ctx: &ProjectContext) -> DetectionResult {
-    if ctx.package_contains("pytest") || ctx.files.iter().any(|f| f.contains("test_") && f.ends_with(".py")) {
+    if ctx.package_contains("pytest")
+        || ctx
+            .files
+            .iter()
+            .any(|f| f.contains("test_") && f.ends_with(".py"))
+    {
         DetectionResult::matched(DetectionConfidence::High).evidence("tests", "pytest")
     } else {
         DetectionResult::no_match()
@@ -1623,7 +1787,10 @@ fn detect_dart_test(ctx: &ProjectContext) -> DetectionResult {
     }
 }
 fn detect_unittest(ctx: &ProjectContext) -> DetectionResult {
-    if ctx.files.iter().any(|f| f.contains("test_") && f.ends_with(".py"))
+    if ctx
+        .files
+        .iter()
+        .any(|f| f.contains("test_") && f.ends_with(".py"))
         && !ctx.package_contains("pytest")
     {
         DetectionResult::matched(DetectionConfidence::Medium).evidence("tests", "unittest")
@@ -1734,7 +1901,11 @@ fn detect_compose(ctx: &ProjectContext) -> DetectionResult {
     }
 }
 fn detect_k8s(ctx: &ProjectContext) -> DetectionResult {
-    if ctx.files.iter().any(|f| f.contains("k8s/") || f.contains("kubernetes/")) {
+    if ctx
+        .files
+        .iter()
+        .any(|f| f.contains("k8s/") || f.contains("kubernetes/"))
+    {
         DetectionResult::matched(DetectionConfidence::Medium).evidence("deploy", "k8s")
     } else {
         DetectionResult::no_match()
@@ -1904,9 +2075,7 @@ fn detect_gofmt(ctx: &ProjectContext) -> DetectionResult {
     }
 }
 fn detect_dart_format(ctx: &ProjectContext) -> DetectionResult {
-    if ctx.has_manifest("pubspec.yaml")
-        || ctx.has_manifest("analysis_options.yaml")
-    {
+    if ctx.has_manifest("pubspec.yaml") || ctx.has_manifest("analysis_options.yaml") {
         DetectionResult::matched(DetectionConfidence::Medium).evidence("formatter", "dart format")
     } else {
         DetectionResult::no_match()
@@ -2027,7 +2196,8 @@ fn detect_openapi_generator(ctx: &ProjectContext) -> DetectionResult {
         || ctx.package_contains("@openapitools/openapi-generator-cli")
         || ctx.files.iter().any(|f| f.contains("openapi-generator"))
     {
-        DetectionResult::matched(DetectionConfidence::Medium).evidence("codegen", "openapi-generator")
+        DetectionResult::matched(DetectionConfidence::Medium)
+            .evidence("codegen", "openapi-generator")
     } else {
         DetectionResult::no_match()
     }

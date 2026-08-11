@@ -22,20 +22,18 @@ pub fn to_binary(ues: &UniversalExecutionState) -> Result<Vec<u8>> {
 /// Decode binary UES envelope.
 pub fn from_binary(bytes: &[u8]) -> Result<UniversalExecutionState> {
     if bytes.len() < UES_MAGIC.len() + 4 {
-        return Err(ParallaxError::new(
-            ErrorCode::InvalidSnapshot,
-            "UES binary too short",
-        )
-        .with_source("parallax-ues")
-        .with_operation("from_binary"));
+        return Err(
+            ParallaxError::new(ErrorCode::InvalidSnapshot, "UES binary too short")
+                .with_source("parallax-ues")
+                .with_operation("from_binary"),
+        );
     }
     if &bytes[..UES_MAGIC.len()] != UES_MAGIC {
-        return Err(ParallaxError::new(
-            ErrorCode::InvalidSnapshot,
-            "invalid UES magic",
-        )
-        .with_source("parallax-ues")
-        .with_operation("from_binary"));
+        return Err(
+            ParallaxError::new(ErrorCode::InvalidSnapshot, "invalid UES magic")
+                .with_source("parallax-ues")
+                .with_operation("from_binary"),
+        );
     }
     let ver_off = UES_MAGIC.len();
     let version = u32::from_le_bytes([

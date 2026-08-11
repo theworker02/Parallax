@@ -109,7 +109,9 @@ impl std::fmt::Display for TargetLanguage {
 
 /// Detect language mix from a list of relative file paths.
 /// Returns percentages totaling ~100 based on counted source files.
-pub fn detect_languages(paths: &[impl AsRef<Path>]) -> (Option<SourceLanguage>, HashMap<String, f64>) {
+pub fn detect_languages(
+    paths: &[impl AsRef<Path>],
+) -> (Option<SourceLanguage>, HashMap<String, f64>) {
     let mut counts: HashMap<String, usize> = HashMap::new();
     for p in paths {
         let ext = p

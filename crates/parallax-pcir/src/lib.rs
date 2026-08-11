@@ -12,9 +12,7 @@ mod ops;
 mod program;
 mod version;
 
-pub use ops::{
-    BinaryOperator, CompareOperator, Operand, PcirOp, UnaryOperator, ValueId,
-};
+pub use ops::{BinaryOperator, CompareOperator, Operand, PcirOp, UnaryOperator, ValueId};
 pub use program::{PcirBlock, PcirFunction, PcirModule, PcirProgram};
 pub use version::{check_pcir_schema, PCIR_SCHEMA_VERSION};
 

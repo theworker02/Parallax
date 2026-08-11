@@ -9,9 +9,7 @@ use parallax_migrate::{
 use parallax_pcir::PcirProgram;
 use parallax_runtime::RuntimeManager;
 use parallax_security::SandboxPolicy;
-use parallax_ues::{
-    continuation_matrix, from_json_bytes, to_json_bytes, UniversalExecutionState,
-};
+use parallax_ues::{continuation_matrix, from_json_bytes, to_json_bytes, UniversalExecutionState};
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
@@ -78,8 +76,7 @@ pub async fn cmd_continuum(opts: ContinuumOpts) -> Result<(), ParallaxError> {
         source_rt.clone()
     };
 
-    let contract =
-        MigrationContract::continuation_checkpoint(source_rt.clone(), target_rt.clone());
+    let contract = MigrationContract::continuation_checkpoint(source_rt.clone(), target_rt.clone());
     let analysis = analyze_contract(&contract);
 
     if analyze_only {
@@ -260,8 +257,7 @@ pub async fn cmd_migrate_continuation_mode(
     // Honest path: analyze contract; do not fake cross-runtime resume.
     let source_rt = infer_runtime(&file, from.as_deref())?;
     let target_rt = parse_runtime(&to)?;
-    let contract =
-        MigrationContract::continuation_checkpoint(source_rt.clone(), target_rt.clone());
+    let contract = MigrationContract::continuation_checkpoint(source_rt.clone(), target_rt.clone());
     let analysis = analyze_contract(&contract);
     if json {
         println!(
@@ -350,10 +346,7 @@ pub fn cmd_inspect_ues(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
         println!("UES format_version: {}", ues.format_version);
         println!("execution_id: {}", ues.execution_id);
         println!("source_runtime: {}", ues.source_runtime);
-        println!(
-            "program: {}",
-            ues.source_program.as_deref().unwrap_or("?")
-        );
+        println!("program: {}", ues.source_program.as_deref().unwrap_or("?"));
         println!(
             "safepoint: {:?} ({:?})",
             ues.control_state.safepoint_label, ues.control_state.safepoint_kind
@@ -363,10 +356,7 @@ pub fn cmd_inspect_ues(json: bool, path: PathBuf) -> Result<(), ParallaxError> {
             "continuum_status: {:?}",
             ues.migration_metadata.continuum_status
         );
-        println!(
-            "replay: {:?}",
-            ues.deterministic_context.engine_status
-        );
+        println!("replay: {:?}", ues.deterministic_context.engine_status);
         if let Some(reason) = &ues.deterministic_context.unsupported_reason {
             println!("replay note: {reason}");
         }

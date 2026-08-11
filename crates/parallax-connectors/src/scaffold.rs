@@ -114,7 +114,9 @@ fn scaffold_capabilities(def: &ConnectorDef) -> RuntimeCapabilities {
             caps.execution = CapabilityLevel::Experimental;
             caps.timeouts = CapabilityLevel::Experimental;
         }
-        ConnectorMaturity::Scaffold | ConnectorMaturity::Planned | ConnectorMaturity::Production => {
+        ConnectorMaturity::Scaffold
+        | ConnectorMaturity::Planned
+        | ConnectorMaturity::Production => {
             caps.execution = CapabilityLevel::No;
         }
     }

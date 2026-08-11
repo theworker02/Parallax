@@ -32,11 +32,7 @@ impl BehaviorExplorer {
                 PvValue::I64(0),
                 PvValue::List(vec![]),
             ],
-            capture: vec![
-                "return".into(),
-                "exceptions".into(),
-                "mutations".into(),
-            ],
+            capture: vec!["return".into(), "exceptions".into(), "mutations".into()],
         }
     }
 

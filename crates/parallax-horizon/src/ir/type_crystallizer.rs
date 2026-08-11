@@ -88,7 +88,11 @@ impl TypeCrystallizer {
                 }
             })
             .collect();
-        let body = vars.iter().map(|v| format!("    {v},")).collect::<Vec<_>>().join("\n");
+        let body = vars
+            .iter()
+            .map(|v| format!("    {v},"))
+            .collect::<Vec<_>>()
+            .join("\n");
         CrystallizedType {
             rust_sketch: format!("enum {name} {{\n{body}\n}}"),
             name: name.into(),

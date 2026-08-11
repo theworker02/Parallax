@@ -6,7 +6,10 @@ use parallax_project::ProjectAnalysis;
 use parallax_puir::{Confidence, PuirItem};
 
 /// Compute scores from graph / PUIR / plan evidence.
-pub fn compute_compatibility(analysis: &ProjectAnalysis, plan: &MigrationPlan) -> CompatibilityScores {
+pub fn compute_compatibility(
+    analysis: &ProjectAnalysis,
+    plan: &MigrationPlan,
+) -> CompatibilityScores {
     let lang = score_language_semantics(analysis);
     let deps = score_dependencies(plan);
     let fw = score_framework(plan);
@@ -90,7 +93,11 @@ fn score_config(analysis: &ProjectAnalysis, plan: &MigrationPlan) -> f64 {
     if !has_pkg {
         return 80.0;
     }
-    if plan.infrastructure.iter().any(|f| f.contains("Cargo.toml") || f.contains("go.mod")) {
+    if plan
+        .infrastructure
+        .iter()
+        .any(|f| f.contains("Cargo.toml") || f.contains("go.mod"))
+    {
         90.0
     } else {
         60.0
@@ -98,7 +105,11 @@ fn score_config(analysis: &ProjectAnalysis, plan: &MigrationPlan) -> f64 {
 }
 
 /// Aggregate confidence label from scores + unsupported count.
-pub fn overall_label(scores: &CompatibilityScores, unsupported: usize, reviews: usize) -> Confidence {
+pub fn overall_label(
+    scores: &CompatibilityScores,
+    unsupported: usize,
+    reviews: usize,
+) -> Confidence {
     let avg = (scores.language_semantics
         + scores.dependencies
         + scores.framework_mappings

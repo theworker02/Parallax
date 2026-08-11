@@ -138,7 +138,11 @@ pub struct TransmuteReport {
 
 impl TransmuteReport {
     /// Seed report from analysis + plan + scores.
-    pub fn new(analysis: &ProjectAnalysis, plan: &MigrationPlan, scores: &CompatibilityScores) -> Self {
+    pub fn new(
+        analysis: &ProjectAnalysis,
+        plan: &MigrationPlan,
+        scores: &CompatibilityScores,
+    ) -> Self {
         let replacements: Vec<(String, String)> = plan
             .dependencies
             .iter()
@@ -216,14 +220,20 @@ impl TransmuteReport {
     pub fn to_markdown(&self) -> String {
         let mut md = String::new();
         md.push_str("# PARALLAX MIGRATION REPORT\n\n");
-        md.push_str(&format!("- Source: `{}` ({})\n", self.source_root, self.source_language));
+        md.push_str(&format!(
+            "- Source: `{}` ({})\n",
+            self.source_root, self.source_language
+        ));
         md.push_str(&format!("- Target: {}\n", self.target_language));
         if let Some(fw) = &self.framework {
             md.push_str(&format!("- Framework: {fw}\n"));
         }
         md.push_str(&format!("- Pack: {}\n", self.pack_id));
         md.push_str(&format!("- Estimate: {}\n", self.estimate));
-        md.push_str(&format!("- Overall confidence: {}\n\n", self.overall_confidence));
+        md.push_str(&format!(
+            "- Overall confidence: {}\n\n",
+            self.overall_confidence
+        ));
         md.push_str("## Compatibility\n\n");
         md.push_str(&format!(
             "| Area | Score |\n|---|---|\n| Language semantics | {:.1}% |\n| Dependencies | {:.1}% |\n| Framework mappings | {:.1}% |\n| Tests | {:.1}% |\n| Configuration | {:.1}% |\n\n",

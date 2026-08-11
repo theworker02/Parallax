@@ -123,16 +123,16 @@ impl WorkerConnector {
             });
             return Err(err.into_parallax(Some(self.kind.clone())));
         }
-        let hello_payload: HelloResponse =
-            serde_json::from_value(resp.payload.unwrap_or(serde_json::Value::Null)).map_err(
-                |e| {
-                    ParallaxError::new(
-                        ErrorCode::ProtocolViolation,
-                        format!("invalid hello response: {e}"),
-                    )
-                    .with_runtime(self.kind.clone())
-                },
-            )?;
+        let hello_payload: HelloResponse = serde_json::from_value(
+            resp.payload.unwrap_or(serde_json::Value::Null),
+        )
+        .map_err(|e| {
+            ParallaxError::new(
+                ErrorCode::ProtocolViolation,
+                format!("invalid hello response: {e}"),
+            )
+            .with_runtime(self.kind.clone())
+        })?;
         validate_hello(&hello_payload)?;
         Ok(worker)
     }
@@ -379,9 +379,7 @@ impl RuntimeAdapter for WorkerConnector {
                 limits,
             })?,
         );
-        let resp = worker
-            .request_bounded(env, wait, max_message_bytes)
-            .await;
+        let resp = worker.request_bounded(env, wait, max_message_bytes).await;
         worker.shutdown().await;
         let resp = resp?;
         if resp.ok != Some(true) {
@@ -406,10 +404,15 @@ impl RuntimeAdapter for WorkerConnector {
 
 /// Register experimental worker connectors when host tools exist.
 /// Returns ids that were registered so scaffolds can skip them.
-pub fn register_experimental_workers(manager: &parallax_runtime::RuntimeManager) -> Vec<&'static str> {
+pub fn register_experimental_workers(
+    manager: &parallax_runtime::RuntimeManager,
+) -> Vec<&'static str> {
     let mut registered = Vec::new();
     for (id, factory) in [
-        ("ruby", WorkerConnector::try_ruby as fn() -> Option<BoxRuntimeAdapter>),
+        (
+            "ruby",
+            WorkerConnector::try_ruby as fn() -> Option<BoxRuntimeAdapter>,
+        ),
         ("php", WorkerConnector::try_php),
         ("go", WorkerConnector::try_go),
     ] {
@@ -420,7 +423,10 @@ pub fn register_experimental_workers(manager: &parallax_runtime::RuntimeManager)
                 registered.push(id);
             }
             None => {
-                debug!(id, "experimental worker host unavailable — scaffold will register instead");
+                debug!(
+                    id,
+                    "experimental worker host unavailable — scaffold will register instead"
+                );
             }
         }
     }

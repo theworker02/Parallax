@@ -59,12 +59,7 @@ pub struct CapsuleSpec {
 pub struct SemanticMinifier;
 
 impl SemanticMinifier {
-    pub fn minify(
-        &self,
-        name: &str,
-        target: &str,
-        required: &[CapsuleCapability],
-    ) -> CapsuleSpec {
+    pub fn minify(&self, name: &str, target: &str, required: &[CapsuleCapability]) -> CapsuleSpec {
         let mut capabilities = IndexSet::new();
         for c in required {
             capabilities.insert(c.clone());
@@ -122,8 +117,12 @@ impl CapsuleGenerator {
         let mut mod_rs = String::from(
             "//! Parallax compatibility capsule (specialized — not a language emulator).\n\n",
         );
-        if spec.capabilities.contains(&CapsuleCapability::AttributeLookup)
-            || spec.capabilities.contains(&CapsuleCapability::AttributeStore)
+        if spec
+            .capabilities
+            .contains(&CapsuleCapability::AttributeLookup)
+            || spec
+                .capabilities
+                .contains(&CapsuleCapability::AttributeStore)
         {
             files.push(CapsuleFile {
                 relative_path: "parallax_compat/dynamic_object.rs".into(),
@@ -131,21 +130,30 @@ impl CapsuleGenerator {
             });
             mod_rs.push_str("pub mod dynamic_object;\n");
         }
-        if spec.capabilities.contains(&CapsuleCapability::RuntimeStringKeys) {
+        if spec
+            .capabilities
+            .contains(&CapsuleCapability::RuntimeStringKeys)
+        {
             files.push(CapsuleFile {
                 relative_path: "parallax_compat/dynamic_value.rs".into(),
                 contents: DYNAMIC_VALUE_RS.into(),
             });
             mod_rs.push_str("pub mod dynamic_value;\n");
         }
-        if spec.capabilities.contains(&CapsuleCapability::AttributeLookup) {
+        if spec
+            .capabilities
+            .contains(&CapsuleCapability::AttributeLookup)
+        {
             files.push(CapsuleFile {
                 relative_path: "parallax_compat/attribute_access.rs".into(),
                 contents: ATTRIBUTE_ACCESS_RS.into(),
             });
             mod_rs.push_str("pub mod attribute_access;\n");
         }
-        if spec.capabilities.contains(&CapsuleCapability::NullishCoercion) {
+        if spec
+            .capabilities
+            .contains(&CapsuleCapability::NullishCoercion)
+        {
             files.push(CapsuleFile {
                 relative_path: "parallax_compat/nullish.rs".into(),
                 contents: NULLISH_RS.into(),
@@ -260,7 +268,9 @@ mod tests {
                 CapsuleCapability::RuntimeStringKeys,
             ],
         );
-        assert!(spec.capabilities.contains(&CapsuleCapability::AttributeLookup));
+        assert!(spec
+            .capabilities
+            .contains(&CapsuleCapability::AttributeLookup));
         assert!(spec.excluded.contains(&CapsuleCapability::Eval));
         assert!(spec.excluded.contains(&CapsuleCapability::Metaclasses));
     }
@@ -270,9 +280,15 @@ mod tests {
         let spec = SemanticMinifier.minify(
             "demo",
             "rust",
-            &[CapsuleCapability::AttributeLookup, CapsuleCapability::AttributeStore],
+            &[
+                CapsuleCapability::AttributeLookup,
+                CapsuleCapability::AttributeStore,
+            ],
         );
         let gen = CapsuleGenerator.generate_rust(&spec);
-        assert!(gen.files.iter().any(|f| f.relative_path.contains("dynamic_object")));
+        assert!(gen
+            .files
+            .iter()
+            .any(|f| f.relative_path.contains("dynamic_object")));
     }
 }

@@ -22,39 +22,94 @@ pub struct SemanticHazardDatabase;
 impl SemanticHazardDatabase {
     pub fn builtins(&self) -> Vec<SemanticHazard> {
         vec![
-            h("js-number-precision", "JavaScript Number precision", &["javascript", "typescript"], &["rust", "go", "python"],
-              "IEEE-754 doubles cannot represent all integers above 2^53-1",
-              "Use BigInt / i64 / stringified integers"),
-            h("py-int-arbitrary", "Python arbitrary-size integers", &["python"], &["rust", "javascript"],
-              "int is unbounded in CPython",
-              "Prove bounds or use BigInt / decimal"),
-            h("rust-overflow", "Rust overflow behavior", &["python", "javascript"], &["rust"],
-              "Debug panics / release wraps for overflow",
-              "Use checked_* or wrapping intentionally"),
-            h("go-zero-values", "Go zero values", &["python", "typescript"], &["go"],
-              "Unset fields are zero, not nil/None",
-              "Model optionality with pointers or ok-idiom"),
-            h("js-coercion", "JavaScript coercion", &["javascript", "typescript"], &["rust", "go"],
-              "== and ToPrimitive rules are language-specific",
-              "Emit explicit comparisons; preserve == null as nullish"),
-            h("py-truthiness", "Python truthiness", &["python"], &["rust", "go"],
-              "Empty containers are falsy",
-              "Lower to explicit emptiness checks"),
-            h("ruby-truthiness", "Ruby truthiness", &["ruby"], &["rust"],
-              "Only false and nil are falsy",
-              "Do not treat 0/\"\" as false"),
-            h("string-indexing", "String indexing differences", &["python", "javascript"], &["rust"],
-              "Code units vs scalars vs bytes",
-              "Choose chars()/bytes() explicitly"),
-            h("dict-order", "Dictionary ordering", &["python", "javascript"], &["rust"],
-              "Insertion order guarantees vary by version/runtime",
-              "Use IndexMap when order is observable"),
-            h("regex-dialect", "Regex dialect", &["javascript", "python", "ruby"], &["rust", "go"],
-              "Lookbehind / flags differ",
-              "Flag unsupported patterns; do not silently alter"),
-            h("dates-tz", "Date / timezone handling", &["javascript", "python"], &["rust", "go"],
-              "Local vs UTC and DST edges",
-              "Normalize to UTC instants + explicit TZ"),
+            h(
+                "js-number-precision",
+                "JavaScript Number precision",
+                &["javascript", "typescript"],
+                &["rust", "go", "python"],
+                "IEEE-754 doubles cannot represent all integers above 2^53-1",
+                "Use BigInt / i64 / stringified integers",
+            ),
+            h(
+                "py-int-arbitrary",
+                "Python arbitrary-size integers",
+                &["python"],
+                &["rust", "javascript"],
+                "int is unbounded in CPython",
+                "Prove bounds or use BigInt / decimal",
+            ),
+            h(
+                "rust-overflow",
+                "Rust overflow behavior",
+                &["python", "javascript"],
+                &["rust"],
+                "Debug panics / release wraps for overflow",
+                "Use checked_* or wrapping intentionally",
+            ),
+            h(
+                "go-zero-values",
+                "Go zero values",
+                &["python", "typescript"],
+                &["go"],
+                "Unset fields are zero, not nil/None",
+                "Model optionality with pointers or ok-idiom",
+            ),
+            h(
+                "js-coercion",
+                "JavaScript coercion",
+                &["javascript", "typescript"],
+                &["rust", "go"],
+                "== and ToPrimitive rules are language-specific",
+                "Emit explicit comparisons; preserve == null as nullish",
+            ),
+            h(
+                "py-truthiness",
+                "Python truthiness",
+                &["python"],
+                &["rust", "go"],
+                "Empty containers are falsy",
+                "Lower to explicit emptiness checks",
+            ),
+            h(
+                "ruby-truthiness",
+                "Ruby truthiness",
+                &["ruby"],
+                &["rust"],
+                "Only false and nil are falsy",
+                "Do not treat 0/\"\" as false",
+            ),
+            h(
+                "string-indexing",
+                "String indexing differences",
+                &["python", "javascript"],
+                &["rust"],
+                "Code units vs scalars vs bytes",
+                "Choose chars()/bytes() explicitly",
+            ),
+            h(
+                "dict-order",
+                "Dictionary ordering",
+                &["python", "javascript"],
+                &["rust"],
+                "Insertion order guarantees vary by version/runtime",
+                "Use IndexMap when order is observable",
+            ),
+            h(
+                "regex-dialect",
+                "Regex dialect",
+                &["javascript", "python", "ruby"],
+                &["rust", "go"],
+                "Lookbehind / flags differ",
+                "Flag unsupported patterns; do not silently alter",
+            ),
+            h(
+                "dates-tz",
+                "Date / timezone handling",
+                &["javascript", "python"],
+                &["rust", "go"],
+                "Local vs UTC and DST edges",
+                "Normalize to UTC instants + explicit TZ",
+            ),
         ]
     }
 
@@ -143,7 +198,11 @@ impl StrategySearcher {
         ]
     }
 
-    pub fn select(&self, options: &[StrategyOption], policy: &PreservationPolicy) -> Option<StrategyOption> {
+    pub fn select(
+        &self,
+        options: &[StrategyOption],
+        policy: &PreservationPolicy,
+    ) -> Option<StrategyOption> {
         let scored = |o: &StrategyOption| -> f64 {
             match policy {
                 PreservationPolicy::MaximumCompatibility => {
@@ -163,7 +222,13 @@ impl StrategySearcher {
                 }
             }
         };
-        options.iter().max_by(|a, b| scored(a).partial_cmp(&scored(b)).unwrap_or(std::cmp::Ordering::Equal)).cloned()
+        options
+            .iter()
+            .max_by(|a, b| {
+                scored(a)
+                    .partial_cmp(&scored(b))
+                    .unwrap_or(std::cmp::Ordering::Equal)
+            })
+            .cloned()
     }
 }
-

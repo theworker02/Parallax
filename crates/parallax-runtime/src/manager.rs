@@ -117,9 +117,13 @@ impl RuntimeManager {
     ) -> parallax_core::Result<ExecutionResult> {
         let adapter = self.get(&request.runtime)?;
         parallax_core::check_adapter_interface(adapter.metadata().interface_version)?;
-        adapter.capabilities().require("execution", &request.runtime)?;
+        adapter
+            .capabilities()
+            .require("execution", &request.runtime)?;
         if request.capture_state {
-            adapter.capabilities().require("globals", &request.runtime)?;
+            adapter
+                .capabilities()
+                .require("globals", &request.runtime)?;
             adapter.capabilities().require("values", &request.runtime)?;
         }
         self.with_slot(adapter.execute(request, policy)).await

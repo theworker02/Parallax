@@ -25,7 +25,8 @@ fn doctor_runs() {
 #[test]
 fn version_lists_all_components() {
     let mut cmd = plx();
-    cmd.current_dir(repo_root()).args(["version", "--format", "json"]);
+    cmd.current_dir(repo_root())
+        .args(["version", "--format", "json"]);
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("pir_schema"))

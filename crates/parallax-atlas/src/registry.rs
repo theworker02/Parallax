@@ -110,7 +110,10 @@ impl AdapterRegistry {
         out
     }
 
-    pub fn resolve_conflicts(&self, detections: &[RegisteredDetection]) -> Vec<RegisteredDetection> {
+    pub fn resolve_conflicts(
+        &self,
+        detections: &[RegisteredDetection],
+    ) -> Vec<RegisteredDetection> {
         // Within the same adapter_type, keep highest priority / confidence.
         let mut best: HashMap<String, RegisteredDetection> = HashMap::new();
         for d in detections {

@@ -71,13 +71,14 @@ mod tests {
             r#"{"name":"demo","dependencies":{"express":"^4.18.0"},"devDependencies":{"vitest":"^1.0.0"}}"#,
         )
         .unwrap();
-        fs::write(dir.path().join("index.ts"), "import express from 'express';\n").unwrap();
+        fs::write(
+            dir.path().join("index.ts"),
+            "import express from 'express';\n",
+        )
+        .unwrap();
         let reg = builtin_registry();
         let a = analyze_stack(dir.path(), &reg, Some("rust")).unwrap();
-        assert!(a
-            .detected
-            .iter()
-            .any(|d| d.id.contains("express")));
+        assert!(a.detected.iter().any(|d| d.id.contains("express")));
         assert!(a
             .stack
             .selected
@@ -97,7 +98,11 @@ mod tests {
         )
         .unwrap();
         fs::write(dir.path().join("pnpm-lock.yaml"), "lockfileVersion: 9.0\n").unwrap();
-        fs::write(dir.path().join("index.ts"), "import { Hono } from 'hono';\n").unwrap();
+        fs::write(
+            dir.path().join("index.ts"),
+            "import { Hono } from 'hono';\n",
+        )
+        .unwrap();
         let reg = builtin_registry();
         let a = analyze_stack(dir.path(), &reg, Some("rust")).unwrap();
         assert!(a.detected.iter().any(|d| d.id.contains("hono")));
@@ -107,8 +112,8 @@ mod tests {
 
     #[test]
     fn analyze_detects_nest_prisma_stack_fixture() {
-        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../examples/stacks/nest-prisma");
+        let root =
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../examples/stacks/nest-prisma");
         if !root.exists() {
             return;
         }
@@ -121,8 +126,8 @@ mod tests {
 
     #[test]
     fn analyze_detects_tauri_desktop_fixture() {
-        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../examples/stacks/tauri-desktop");
+        let root =
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../examples/stacks/tauri-desktop");
         if !root.exists() {
             return;
         }
@@ -138,4 +143,3 @@ mod tests {
         assert_eq!(r.overall, "stable");
     }
 }
-

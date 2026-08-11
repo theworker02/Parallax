@@ -92,8 +92,10 @@ pub fn why(path: &Path, target_file: &str) -> Result<WhyReport, ParallaxError> {
         .filter(|m| {
             m.target_file
                 .as_ref()
-                .map(|f| f.replace('\\', "/") == target_file.replace('\\', "/")
-                    || target_file.ends_with(f.as_str()))
+                .map(|f| {
+                    f.replace('\\', "/") == target_file.replace('\\', "/")
+                        || target_file.ends_with(f.as_str())
+                })
                 .unwrap_or(false)
         })
         .cloned()

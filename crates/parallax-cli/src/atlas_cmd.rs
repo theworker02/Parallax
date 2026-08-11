@@ -1,17 +1,12 @@
 //! Atlas CLI — `plx adapters`, `analyze`, `stacks`, `mappings`, `compatibility`, …
 
 use parallax_adapter_sdk::AdapterKind;
-use parallax_atlas::{
-    analyze_stack, builtin_registry, pair_compatibility, AdapterLockfile,
-};
+use parallax_atlas::{analyze_stack, builtin_registry, pair_compatibility, AdapterLockfile};
 use parallax_core::{ErrorCode, ParallaxError, Remediation};
 use parallax_transmute::DependencyMapDb;
 use std::path::PathBuf;
 
-pub fn cmd_adapters(
-    json: bool,
-    sub: Option<AdaptersSub>,
-) -> Result<(), ParallaxError> {
+pub fn cmd_adapters(json: bool, sub: Option<AdaptersSub>) -> Result<(), ParallaxError> {
     let reg = builtin_registry();
     match sub.unwrap_or(AdaptersSub::List { query: None }) {
         AdaptersSub::List { query } => {
@@ -21,7 +16,9 @@ pub fn cmd_adapters(
                 list.retain(|m| {
                     m.id.as_str().contains(&q)
                         || m.name.to_ascii_lowercase().contains(&q)
-                        || m.languages.iter().any(|l| l.to_ascii_lowercase().contains(&q))
+                        || m.languages
+                            .iter()
+                            .any(|l| l.to_ascii_lowercase().contains(&q))
                         || m.adapter_type.as_str().contains(&q)
                 });
             }
@@ -164,10 +161,7 @@ pub enum AdaptersSub {
     Report,
 }
 
-pub fn cmd_adapter_tool(
-    json: bool,
-    action: AdapterToolAction,
-) -> Result<(), ParallaxError> {
+pub fn cmd_adapter_tool(json: bool, action: AdapterToolAction) -> Result<(), ParallaxError> {
     match action {
         AdapterToolAction::New { name } => {
             let msg = format!(
@@ -250,7 +244,10 @@ pub fn cmd_analyze(
     for d in &analysis.detected {
         println!(
             "  [{:^16}] {} ({}) — {}",
-            d.adapter_type, d.name, d.maturity, d.detection.confidence.as_str()
+            d.adapter_type,
+            d.name,
+            d.maturity,
+            d.detection.confidence.as_str()
         );
     }
     println!("\nSelected migration adapters:");
@@ -346,10 +343,7 @@ pub fn cmd_mappings(json: bool, query: Option<String>) -> Result<(), ParallaxErr
         keys
     };
     if json {
-        let rows: Vec<_> = filtered
-            .iter()
-            .filter_map(|name| kb.lookup(name))
-            .collect();
+        let rows: Vec<_> = filtered.iter().filter_map(|name| kb.lookup(name)).collect();
         println!("{}", serde_json::to_string_pretty(&rows).unwrap());
         return Ok(());
     }
@@ -361,7 +355,12 @@ pub fn cmd_mappings(json: bool, query: Option<String>) -> Result<(), ParallaxErr
                 .iter()
                 .map(|e| format!("{}:{} ({:.0}%)", e.ecosystem, e.name, e.confidence * 100.0))
                 .collect();
-            println!("{}:{}  →  {}", entry.ecosystem, entry.name, targets.join(", "));
+            println!(
+                "{}:{}  →  {}",
+                entry.ecosystem,
+                entry.name,
+                targets.join(", ")
+            );
         }
     }
     if filtered.len() > 80 {
@@ -370,11 +369,7 @@ pub fn cmd_mappings(json: bool, query: Option<String>) -> Result<(), ParallaxErr
     Ok(())
 }
 
-pub fn cmd_compatibility(
-    json: bool,
-    source: String,
-    target: String,
-) -> Result<(), ParallaxError> {
+pub fn cmd_compatibility(json: bool, source: String, target: String) -> Result<(), ParallaxError> {
     let report = pair_compatibility(&source, &target);
     if json {
         println!("{}", serde_json::to_string_pretty(&report).unwrap());
@@ -385,7 +380,11 @@ pub fn cmd_compatibility(
         let dots = ".".repeat((22usize).saturating_sub(f.feature.len()).max(2));
         println!("{}{}{}%", f.feature, dots, f.score_pct);
     }
-    println!("\nOverall: {} ({}%)", report.overall.to_uppercase(), report.overall_pct);
+    println!(
+        "\nOverall: {} ({}%)",
+        report.overall.to_uppercase(),
+        report.overall_pct
+    );
     Ok(())
 }
 

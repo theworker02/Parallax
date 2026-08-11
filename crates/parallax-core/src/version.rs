@@ -243,9 +243,7 @@ mod tests {
             ErrorCode::InvalidSnapshot
         );
         assert_eq!(
-            check_pcir_schema(PCIR_SCHEMA_VERSION + 1)
-                .unwrap_err()
-                .code,
+            check_pcir_schema(PCIR_SCHEMA_VERSION + 1).unwrap_err().code,
             ErrorCode::InvalidSnapshot
         );
         check_ues_format(UES_FORMAT_VERSION).unwrap();
