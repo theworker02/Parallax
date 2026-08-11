@@ -91,7 +91,7 @@ impl RuntimeAdapter for WasmAdapter {
             "Wasmtime",
             "In-process WASM execution with fuel limits",
         );
-        meta.host_version = Some("wasmtime-29".into());
+        meta.host_version = Some("wasmtime-36".into());
         meta.adapter_version = PARALLAX_VERSION.to_string();
         meta
     }
