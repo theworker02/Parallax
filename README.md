@@ -118,7 +118,7 @@ Deep dive: [Architecture](https://parallax-runtime.github.io/parallax/architectu
 
 ## Crates
 
-All workspace crates are **v0.1.0**. crates.io publication is **pending** (requires a valid API token); links below are the intended registry URLs.
+All workspace crates are **v0.1.0**. All workspace crates are published on [crates.io](https://crates.io) at **v0.1.0** (install with `cargo install parallax-cli` for the `plx` CLI).
 
 | Crate | crates.io | docs.rs |
 |---|---|---|

@@ -20,9 +20,9 @@ use std::sync::Arc;
 use std::time::Duration;
 use tracing::debug;
 
-const RUBY_WORKER: &str = include_str!("../../../adapters/ruby/worker.rb");
-const PHP_WORKER: &str = include_str!("../../../adapters/php/worker.php");
-const GO_WORKER: &str = include_str!("../../../adapters/go/worker.go");
+const RUBY_WORKER: &str = include_str!("../workers/worker.rb");
+const PHP_WORKER: &str = include_str!("../workers/worker.php");
+const GO_WORKER: &str = include_str!("../workers/worker.go");
 
 /// How to invoke the host for a worker script.
 #[derive(Clone)]

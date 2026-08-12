@@ -22,7 +22,7 @@ use std::sync::Arc;
 use std::time::Duration;
 use tracing::{debug, warn};
 
-const WORKER_SOURCE: &str = include_str!("../../../adapters/js/worker.js");
+const WORKER_SOURCE: &str = include_str!("../worker.js");
 
 /// JavaScript / Node.js adapter.
 pub struct JsAdapter {
