@@ -22,7 +22,7 @@ use std::sync::Arc;
 use std::time::Duration;
 use tracing::{debug, warn};
 
-const WORKER_SOURCE: &str = include_str!("../../../adapters/python/worker.py");
+const WORKER_SOURCE: &str = include_str!("../worker.py");
 
 /// Python adapter.
 pub struct PythonAdapter {
