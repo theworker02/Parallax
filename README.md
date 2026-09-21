@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <img src="docs/assets/parallax-logo.png" alt="Parallax logo" width="128">
 </p>
 
@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://github.com/theworker02/Parallax/actions/workflows/ci.yml"><img src="https://github.com/theworker02/Parallax/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Proprietary%20(source--available)-blue.svg" alt="License"></a>
   <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg?logo=rust" alt="Rust"></a>
   <a href="Cargo.toml"><img src="https://img.shields.io/badge/version-0.1.0-informational" alt="Version"></a>
   <a href="https://parallax-runtime.github.io/parallax/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-0B5FFF?logo=gitbook&logoColor=white" alt="Docs"></a>
@@ -24,11 +24,11 @@
 
 Parallax is a Rust workspace for **honest polyglot tooling**: process-isolated Python and JavaScript workers, deterministic `.plx` snapshots, semantic-loss analysis, whole-project **Transmute** migration, continuous **Mirror** sync, **Atlas** stack detection, and **Event Horizon** for migrations that look impossible.
 
-**Tier-1 today:** TypeScript/JavaScript → Rust project migration (`examples/weather-api`). Python ↔ JavaScript **value** migration is production-quality for bindings capture/restore. Other stacks are detected, mapped, and planned with explicit maturity — not silent fakes.
+**Tier-1 today:** TypeScript/JavaScript â†’ Rust project migration (`examples/weather-api`). Python â†” JavaScript **value** migration is production-quality for bindings capture/restore. Other stacks are detected, mapped, and planned with explicit maturity â€” not silent fakes.
 
 | Surface | Status |
 |---|---|
-| **Transmute** | TS/JS → Rust codegen path; `--require-build --require-tests` |
+| **Transmute** | TS/JS â†’ Rust codegen path; `--require-build --require-tests` |
 | **Mirror** | Linked sync + `plx sync --check` CI gate |
 | **Continuum** | Same-runtime checkpoint capture (not arbitrary stack migration) |
 | **Atlas** | 120+ built-in stack adapters; `plx analyze` |
@@ -58,10 +58,10 @@ plx doctor
 ### Commands that show the product
 
 ```bash
-# Value migration (Python ↔ JavaScript)
+# Value migration (Python â†” JavaScript)
 plx migrate examples/demo.py --to javascript -o /tmp/out.js
 
-# Project migration (TypeScript → Rust)
+# Project migration (TypeScript â†’ Rust)
 plx migrate examples/weather-api --to rust -o examples/weather-api-rust --require-build --require-tests
 
 # Stack detection
@@ -99,20 +99,20 @@ flowchart TB
 
 ```text
 crates/                 22 Rust workspace members (Event Horizon = one crate)
-├── parallax-cli        plx / parallax binaries
-├── parallax-runtime    adapter orchestration + workers
-├── parallax-transmute  project migration engine
-├── parallax-mirror     linked sync + semantic diff
-├── parallax-atlas      120+ stack adapters + analyze
-├── parallax-horizon    impossible migration analysis
-├── parallax-connectors 60+ language catalog
-└── parallax-ir …       PIR, PUIR, UES, protocol, snapshot
+â”œâ”€â”€ parallax-cli        plx / parallax binaries
+â”œâ”€â”€ parallax-runtime    adapter orchestration + workers
+â”œâ”€â”€ parallax-transmute  project migration engine
+â”œâ”€â”€ parallax-mirror     linked sync + semantic diff
+â”œâ”€â”€ parallax-atlas      120+ stack adapters + analyze
+â”œâ”€â”€ parallax-horizon    impossible migration analysis
+â”œâ”€â”€ parallax-connectors 60+ language catalog
+â””â”€â”€ parallax-ir â€¦       PIR, PUIR, UES, protocol, snapshot
 adapters/               embedded Python/JS/Ruby/PHP/Go workers
-docs/                   mdBook → GitHub Pages
+docs/                   mdBook â†’ GitHub Pages
 examples/               demos, weather-api, stack fixtures
 ```
 
-Deep dive: [Architecture](https://parallax-runtime.github.io/parallax/architecture.html) · [Atlas index](https://parallax-runtime.github.io/parallax/adapters/index.html) · [Transmute](https://parallax-runtime.github.io/parallax/transmute.html) · [Mirror](https://parallax-runtime.github.io/parallax/mirror.html) · [Horizon](https://parallax-runtime.github.io/parallax/horizon.html)
+Deep dive: [Architecture](https://parallax-runtime.github.io/parallax/architecture.html) Â· [Atlas index](https://parallax-runtime.github.io/parallax/adapters/index.html) Â· [Transmute](https://parallax-runtime.github.io/parallax/transmute.html) Â· [Mirror](https://parallax-runtime.github.io/parallax/mirror.html) Â· [Horizon](https://parallax-runtime.github.io/parallax/horizon.html)
 
 ---
 
@@ -157,8 +157,8 @@ cargo install parallax-cli
 
 | Path | Purpose |
 |---|---|
-| `examples/demo.py` / `demo.js` | Python ↔ JS value migration |
-| `examples/weather-api` | Transmute + Mirror reference (TS → Rust) |
+| `examples/demo.py` / `demo.js` | Python â†” JS value migration |
+| `examples/weather-api` | Transmute + Mirror reference (TS â†’ Rust) |
 | `examples/stacks/nest-prisma` | Atlas: NestJS + Prisma detection |
 | `examples/stacks/fastapi-sqlalchemy` | Atlas: FastAPI + SQLAlchemy + Ruff |
 | `examples/stacks/tauri-desktop` | Atlas: Tauri desktop shell |
@@ -201,14 +201,11 @@ cd docs && mdbook build
 
 ## Status
 
-Parallax reports **Unsupported** instead of pretending lossy or unimplemented paths succeeded. Non–Tier-1 language pairs may detect and plan but will not claim full codegen. See [Limitations](https://parallax-runtime.github.io/parallax/limitations.html).
+Parallax reports **Unsupported** instead of pretending lossy or unimplemented paths succeeded. Nonâ€“Tier-1 language pairs may detect and plan but will not claim full codegen. See [Limitations](https://parallax-runtime.github.io/parallax/limitations.html).
 
 ---
 
 ## License
 
-Licensed under the [Apache License, Version 2.0](LICENSE).
+**Source-available proprietary** — evaluation under [LICENSE](./LICENSE); commercial / production use via [COMMERCIAL.md](./COMMERCIAL.md). See [LICENSE_TRANSITION_NOTICE.md](./LICENSE_TRANSITION_NOTICE.md) and [NOTICE](./NOTICE).
 
-<p align="center">
-  <img src="docs/assets/parallax-wordmark.svg" alt="Parallax wordmark" width="200">
-</p>
