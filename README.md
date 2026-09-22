@@ -24,11 +24,11 @@
 
 Parallax is a Rust workspace for **honest polyglot tooling**: process-isolated Python and JavaScript workers, deterministic `.plx` snapshots, semantic-loss analysis, whole-project **Transmute** migration, continuous **Mirror** sync, **Atlas** stack detection, and **Event Horizon** for migrations that look impossible.
 
-**Tier-1 today:** TypeScript/JavaScript â†’ Rust project migration (`examples/weather-api`). Python â†” JavaScript **value** migration is production-quality for bindings capture/restore. Other stacks are detected, mapped, and planned with explicit maturity â€” not silent fakes.
+**Tier-1 today:** TypeScript/JavaScript Ã¢â€ â€™ Rust project migration (`examples/weather-api`). Python Ã¢â€ â€ JavaScript **value** migration is production-quality for bindings capture/restore. Other stacks are detected, mapped, and planned with explicit maturity Ã¢â‚¬â€ not silent fakes.
 
 | Surface | Status |
 |---|---|
-| **Transmute** | TS/JS â†’ Rust codegen path; `--require-build --require-tests` |
+| **Transmute** | TS/JS Ã¢â€ â€™ Rust codegen path; `--require-build --require-tests` |
 | **Mirror** | Linked sync + `plx sync --check` CI gate |
 | **Continuum** | Same-runtime checkpoint capture (not arbitrary stack migration) |
 | **Atlas** | 120+ built-in stack adapters; `plx analyze` |
@@ -58,10 +58,10 @@ plx doctor
 ### Commands that show the product
 
 ```bash
-# Value migration (Python â†” JavaScript)
+# Value migration (Python Ã¢â€ â€ JavaScript)
 plx migrate examples/demo.py --to javascript -o /tmp/out.js
 
-# Project migration (TypeScript â†’ Rust)
+# Project migration (TypeScript Ã¢â€ â€™ Rust)
 plx migrate examples/weather-api --to rust -o examples/weather-api-rust --require-build --require-tests
 
 # Stack detection
@@ -99,20 +99,20 @@ flowchart TB
 
 ```text
 crates/                 22 Rust workspace members (Event Horizon = one crate)
-â”œâ”€â”€ parallax-cli        plx / parallax binaries
-â”œâ”€â”€ parallax-runtime    adapter orchestration + workers
-â”œâ”€â”€ parallax-transmute  project migration engine
-â”œâ”€â”€ parallax-mirror     linked sync + semantic diff
-â”œâ”€â”€ parallax-atlas      120+ stack adapters + analyze
-â”œâ”€â”€ parallax-horizon    impossible migration analysis
-â”œâ”€â”€ parallax-connectors 60+ language catalog
-â””â”€â”€ parallax-ir â€¦       PIR, PUIR, UES, protocol, snapshot
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ parallax-cli        plx / parallax binaries
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ parallax-runtime    adapter orchestration + workers
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ parallax-transmute  project migration engine
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ parallax-mirror     linked sync + semantic diff
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ parallax-atlas      120+ stack adapters + analyze
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ parallax-horizon    impossible migration analysis
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ parallax-connectors 60+ language catalog
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ parallax-ir Ã¢â‚¬Â¦       PIR, PUIR, UES, protocol, snapshot
 adapters/               embedded Python/JS/Ruby/PHP/Go workers
-docs/                   mdBook â†’ GitHub Pages
+docs/                   mdBook Ã¢â€ â€™ GitHub Pages
 examples/               demos, weather-api, stack fixtures
 ```
 
-Deep dive: [Architecture](https://parallax-runtime.github.io/parallax/architecture.html) Â· [Atlas index](https://parallax-runtime.github.io/parallax/adapters/index.html) Â· [Transmute](https://parallax-runtime.github.io/parallax/transmute.html) Â· [Mirror](https://parallax-runtime.github.io/parallax/mirror.html) Â· [Horizon](https://parallax-runtime.github.io/parallax/horizon.html)
+Deep dive: [Architecture](https://parallax-runtime.github.io/parallax/architecture.html) Ã‚Â· [Atlas index](https://parallax-runtime.github.io/parallax/adapters/index.html) Ã‚Â· [Transmute](https://parallax-runtime.github.io/parallax/transmute.html) Ã‚Â· [Mirror](https://parallax-runtime.github.io/parallax/mirror.html) Ã‚Â· [Horizon](https://parallax-runtime.github.io/parallax/horizon.html)
 
 ---
 
@@ -157,8 +157,8 @@ cargo install parallax-cli
 
 | Path | Purpose |
 |---|---|
-| `examples/demo.py` / `demo.js` | Python â†” JS value migration |
-| `examples/weather-api` | Transmute + Mirror reference (TS â†’ Rust) |
+| `examples/demo.py` / `demo.js` | Python Ã¢â€ â€ JS value migration |
+| `examples/weather-api` | Transmute + Mirror reference (TS Ã¢â€ â€™ Rust) |
 | `examples/stacks/nest-prisma` | Atlas: NestJS + Prisma detection |
 | `examples/stacks/fastapi-sqlalchemy` | Atlas: FastAPI + SQLAlchemy + Ruff |
 | `examples/stacks/tauri-desktop` | Atlas: Tauri desktop shell |
@@ -201,13 +201,13 @@ cd docs && mdbook build
 
 ## Status
 
-Parallax reports **Unsupported** instead of pretending lossy or unimplemented paths succeeded. Nonâ€“Tier-1 language pairs may detect and plan but will not claim full codegen. See [Limitations](https://parallax-runtime.github.io/parallax/limitations.html).
+Parallax reports **Unsupported** instead of pretending lossy or unimplemented paths succeeded. NonÃ¢â‚¬â€œTier-1 language pairs may detect and plan but will not claim full codegen. See [Limitations](https://parallax-runtime.github.io/parallax/limitations.html).
 
 ---
 
 ## License
 
-**Source-available proprietary** — evaluation under [LICENSE](./LICENSE); commercial / production use via [COMMERCIAL.md](./COMMERCIAL.md). See [LICENSE_TRANSITION_NOTICE.md](./LICENSE_TRANSITION_NOTICE.md) and [NOTICE](./NOTICE).
+**Source-available proprietary** â€” evaluation under [LICENSE](./LICENSE); commercial / production use via [COMMERCIAL.md](./COMMERCIAL.md). See [LICENSE_TRANSITION_NOTICE.md](./LICENSE_TRANSITION_NOTICE.md) and [NOTICE](./NOTICE).
 
 
 ---
@@ -215,3 +215,7 @@ Parallax reports **Unsupported** instead of pretending lossy or unimplemented pa
 ## License & acquisition
 
 This project is **proprietary**. Production use, redistribution, and commercial deployment require a written commercial license or completed acquisition. See [LICENSE](./LICENSE) and [ACQUISITION.md](./ACQUISITION.md). Contact [@theworker02](https://github.com/theworker02).
+
+## Acquisition diligence
+
+Buyer-facing diligence materials live in [docs/acquisition/](./docs/acquisition/). Commercial licensing contact path: [COMMERCIAL.md](./COMMERCIAL.md).

@@ -1,102 +1,171 @@
-# Acquisition â€” Parallax
+# Acquisition Brief â€” Value migration (Python Ã¢â€ â€ JavaScript)
 
-**Status:** Diligence / sales briefing only. **No acquisition has occurred** by virtue of this file.  
-**License:** Proprietary â€” sale or written commercial license required (see `LICENSE`).  
-**Valuation:** Not stated herein.  
+**Date:** 2026-09-22  
+**Repository:** https://github.com/theworker02/Parallax  
+**Default branch:** `main`  
+**Primary language:** Rust  
+**Status:** Diligence briefing only. **No acquisition has occurred** by virtue of this file.  
+**License:** Proprietary â€” sale, written commercial license, or completed asset transfer required (see root `LICENSE`).  
+**Valuation:** Not stated.  
 **Contact:** GitHub [@theworker02](https://github.com/theworker02) Â· [thanks.dev/u/gh/theworker02](https://thanks.dev/u/gh/theworker02)
 
-> This repository is **not open source**. Cloning or forking does **not** grant production, redistribution, SaaS, or commercial rights.
+> Cloning or forking this repository does **not** grant production, redistribution, SaaS, OEM, or commercial rights.
 
 ---
 
-## Summary
+## 1. Executive thesis
+
+<img src="docs/assets/parallax-logo.png" alt="Parallax logo" width="128"> <strong>Polyglot migration and universal execution runtime</strong><br> Capture program state in one language, encode it as language-neutral IR, restore or migrate it in another.
+
+**Why a buyer cares:** Value migration (Python Ã¢â€ â€ JavaScript) packages transferable product IP â€” source, docs, in-repo brand assets, and a diligence room under `docs/acquisition/` â€” under a clear proprietary posture so diligence can proceed without mistaking the repo for open source.
+
+---
+
+## 2. Product snapshot
 
 | Item | Detail |
 |------|--------|
-| Product | Parallax |
-| Repository | https://github.com/theworker02/Parallax |
-| License type | Proprietary â€” sale / acquisition / commercial license required |
-| Open source? | **No** |
+| Product | Value migration (Python Ã¢â€ â€ JavaScript) |
+| Repo | `theworker02/Parallax` |
+| Language | Rust |
+| Open source? | **No** â€” proprietary |
 | Rightsholder | theworker02 |
-| Primary language | Rust |
+| Diligence pack | `docs/acquisition/` |
 
-## Product
+### Capability highlights (from current materials)
 
-Polyglot migration and universal execution runtime Capture program state in one language, encode it as language-neutral IR, restore or migrate it in another.
-
----
-
-## How to purchase or acquire
-
-1. Contact [@theworker02](https://github.com/theworker02) (or [thanks.dev](https://thanks.dev/u/gh/theworker02)).
-2. Describe intended use: seats, deployment model, redistribution / OEM needs, or corporate IP acquisition.
-3. Execute NDA if requested for deeper diligence materials.
-4. Receive quote and commercial license **or** definitive purchase / asset-transfer terms.
-5. Complete payment and closing as agreed; receive entitlement / transfer confirmation.
-
-Until a paid license or completed acquisition is in place, **do not** deploy this Product commercially, redistribute it, or offer it as a hosted service.
+- **Rust** 1.75+ ([rustup](https://rustup.rs/))
+- **Node.js** 18+ and **Python** 3.10+ for runtime adapters
+- Windows: disable Microsoft Store Python alias or install from [python.org](https://www.python.org/)
 
 ---
 
-## Typical commercial structures
+## 3. Problem / opportunity
 
-| Structure | When it fits |
-|-----------|----------------|
-| **Commercial license** (non-exclusive) | Run/deploy under seat or deployment terms |
-| **Exclusive license** | Field-of-use exclusivity; seller may retain shell entity |
-| **Asset / IP sale** | Buyer wants materials and IP assigned outright |
-| **OEM / reseller** | Embedding or redistribution â€” separate agreement |
-
-Exact pricing, earnouts, and escrow are negotiated under NDA with counsel. **No forged or executed deal docs are implied by this file.**
+Teams evaluating Value migration (Python Ã¢â€ â€ JavaScript) typically need either (a) a commercial right to run or embed it, or (b) outright ownership of the Product IP for strategic build-out. Public GitHub visibility without a proprietary license creates false assumptions about free production use. This brief and the linked data room make the commercial path explicit.
 
 ---
 
-## What a buyer typically receives
+## 4. What ships today
+
+Honest maturity: treat repository contents, README claims, tests, and release tags as the source of truth. Do not assume production customers, ARR, filed patents, or SLAs unless separately evidenced in diligence.
+
+Typical transferable surfaces:
+
+- Source tree and build/test scripts present in-repo
+- Documentation and design notes
+- Acquisition / diligence markdown under `docs/acquisition/`
+- Branding assets committed to the repository (if any)
+
+---
+
+## 5. Demo / evaluation path (buyer)
+
+Minimal path (no secrets required unless README says otherwise):
+
+```
+```bash
+git clone https://github.com/theworker02/Parallax.git
+cd parallax
+cargo build -p parallax-cli --release
+export PATH="$PWD/target/release:$PATH"   # optional
+plx doctor
+```
+```bash
+# Value migration (Python Ã¢â€ â€ JavaScript)
+plx migrate examples/demo.py --to javascript -o /tmp/out.js
+
+# Project migration (TypeScript Ã¢â€ â€™ Rust)
+plx migrate examples/weather-api --to rust -o examples/weather-api-rust --require-build --require-tests
+
+# Stack detection
+plx analyze examples/stacks/nest-prisma --to rust
+plx analyze examples/weather-api --to rust
+
+# Continuous sync
+plx link examples/weather-api examples/weather-api-rust
+plx sync --check
+
+# Impossible migration analysis
+plx observe examples/hostile-dynamic
+plx impossible examples/hostile-dynamic --to rust
+```
+```mermaid
+flowchart TB
+  CLI[plx CLI] --> RT[RuntimeManager]
+  RT --> PY[Python worker]
+  RT --> JS[Node worker]
+  RT --> WASM[wasmtime]
+  CLI --> TM[Transmute]
+  TM --> AT[Atlas detect]
+  TM --> PUIR[PUIR / ProjectGraph]
+  CLI --> MR[Mirror sync]
+  CLI --> HZ[Event Horizon]
+  RT --> PIR[PIR values]
+```
+```text
+```
+
+Extended evaluation: `docs/acquisition/BUYER_EVALUATION.md`. Written NDA / evaluation grants may be required for private materials.
+
+---
+
+## 6. What a transaction typically includes
 
 Subject to definitive schedules:
 
-- Repository materials and original Product IP asserted by Rightsholder
-- Documentation and diligence artifacts present at closing
-- Branding / naming as assigned in the agreement
-
-**Typically excluded unless listed:** seller personal accounts, unrelated repos, third-party dependency source under separate licenses, secrets without a rotation plan, fabricated revenue/user metrics.
-
----
-
-## Evaluation
-
-Time-limited evaluation may be offered **in writing only** (often under NDA). Evaluation is non-production unless expressly stated, non-transferable, and does not authorize redistribution or public SaaS hosting.
+| Included (typical) | Excluded (typical) |
+|--------------------|--------------------|
+| Repo materials + asserted original IP | Seller personal accounts / unrelated repos |
+| Docs + diligence room at closing | Third-party dependency source under separate licenses |
+| In-repo brand marks as assigned | Secrets without rotation plan |
+| Know-how captured in docs | Fabricated revenue, user, or adoption metrics |
 
 ---
 
-## Diligence starting checklist (buyer)
+## 7. Suggested deal structures
+
+| Structure | When it fits |
+|-----------|--------------|
+| Non-exclusive commercial license | Deploy/run under seat or environment terms |
+| Exclusive field-of-use license | Buyer wants exclusivity; seller may retain entity |
+| Asset / IP assignment | Buyer wants ownership of Materials outright |
+| OEM / redistribution | Separate agreement â€” not implied here |
+
+Commercial terms (price, earnouts, escrow) are negotiated under NDA with counsel.
+
+---
+
+## 8. Buyer diligence checklist
 
 - [ ] Confirm Rightsholder identity and authority to sell/license
-- [ ] Inventory Materials (repo, docs, demos â€” no secrets without rotation)
-- [ ] Implementation maturity: vision vs prototype vs production-ready
-- [ ] Third-party OSS / cloud ToS constraints
-- [ ] Trademark / domain / naming conflicts
-- [ ] Contributor IP assignment chain
-- [ ] Post-close LICENSE supersession and public-repo disposition
+- [ ] Inventory Materials (`docs/acquisition/ASSET_INVENTORY.md`)
+- [ ] Review IP posture (`IP_PROVENANCE.md`) and dependencies (`DEPENDENCY_INVENTORY.md`)
+- [ ] Run evaluation script (`BUYER_EVALUATION.md`)
+- [ ] Review risks (`RISK_REGISTER.md`)
+- [ ] Agree transfer scope (`TRANSFER_MANIFEST.md`) and handoff (`HANDOFF_CHECKLIST.md`)
+- [ ] Supersede root `LICENSE` at closing via definitive agreement
 
 ---
 
-## Related files
+## 9. Related documents
 
 | Document | Purpose |
 |----------|---------|
-| `LICENSE` | Proprietary â€” no default grant until sale/license |
-| `.github/FUNDING.yml` | Sponsors / thanks.dev |
+| `LICENSE` | Proprietary â€” no default grant |
+| `docs/acquisition/README.md` | Data-room index |
+| `docs/acquisition/EXECUTIVE_SUMMARY.md` | One-page thesis |
 | `README.md` | Product overview |
-| `SECURITY.md` | Vulnerability reporting (if present) |
-| `acquisition/` or `docs/acquisition/` | Expanded data room (if present) |
+| `SECURITY.md` | Vulnerability reporting |
+| `COMMERCIAL.md` | Licensing contact path |
+| `.github/FUNDING.yml` | Sponsors / thanks.dev |
 
 ---
 
-## Disclaimer
+## 10. Disclaimer
 
-This document is **informational** and does **not** create a binding offer, grant of rights, or investment advice. Engage counsel for any transaction.
+This package is informational and **does not** create a binding offer, grant of rights, or investment advice. Engage counsel for any transaction.
 
 ---
 
-*Document version: 1.0.0 / 2026-09-22 Â· Classification: acquisition briefing*
+*Document version: 2.0.0 / 2026-09-22 Â· Classification: acquisition briefing*
