@@ -1,4 +1,4 @@
-﻿[workspace]
+[workspace]
 resolver = "2"
 members = [
     "crates/parallax-core",
@@ -30,6 +30,7 @@ default-members = ["crates/parallax-cli"]
 version = "0.1.0"
 edition = "2021"
 license = "LicenseRef-Proprietary"
+license-file = "LICENSE"
 repository = "https://github.com/theworker02/Parallax"
 authors = ["Parallax Contributors"]
 rust-version = "1.75"
