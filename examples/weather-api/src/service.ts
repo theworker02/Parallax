@@ -1,4 +1,4 @@
-﻿import type { Forecast, Weather } from "./types.ts";
+import type { Forecast, Weather } from "./types.ts";
 
 const CITIES: Record<string, Weather> = {
   london: { city: "London", temperatureC: 12, conditions: "cloudy" },
