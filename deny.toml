@@ -1,4 +1,4 @@
-# cargo-deny — https://embarkstudios.github.io/cargo-deny/
+# cargo-deny â€” https://embarkstudios.github.io/cargo-deny/
 
 [graph]
 all-features = false
@@ -11,6 +11,7 @@ ignore = []
 
 [licenses]
 allow = [
+    "LicenseRef-Proprietary",
     "Apache-2.0",
     "Apache-2.0 WITH LLVM-exception",
     "BSD-2-Clause",
@@ -33,3 +34,6 @@ wildcards = "allow"
 unknown-registry = "deny"
 unknown-git = "deny"
 allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+
+[licenses.private]
+ignore = true
