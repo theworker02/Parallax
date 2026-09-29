@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="docs/logo.svg" alt="Parallax official logo" width="128" height="128">
+</p>
+
+<p align="center">
   <img src="docs/assets/parallax-logo.png" alt="Parallax logo" width="128">
 </p>
 
